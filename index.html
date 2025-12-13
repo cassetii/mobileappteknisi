@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1e3c72">
+    <title>Nala Teknisi App</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-screen.hidden {
+            display: none;
+        }
+
+        .login-logo {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .login-title {
+            color: white;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .login-subtitle {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 40px;
+        }
+
+        .login-form {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 350px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .pin-input {
+            letter-spacing: 15px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        /* Main App */
+        .app-container {
+            display: none;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        .app-container.active {
+            display: block;
+        }
+
+        /* Header */
+        .app-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            padding-top: 40px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .user-name {
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .user-role {
+            font-size: 0.85em;
+            opacity: 0.8;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 0.9em;
+            cursor: pointer;
+        }
+
+        .date-display {
+            text-align: center;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .date-display .day {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .date-display .full-date {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Attendance Card */
+        .attendance-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        .attendance-status {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .status-icon {
+            font-size: 4em;
+            margin-bottom: 10px;
+        }
+
+        .status-text {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .status-time {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .attendance-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .attendance-btn {
+            padding: 20px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .attendance-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .attendance-btn.check-in {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .attendance-btn.check-out {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .attendance-btn .icon {
+            font-size: 2em;
+        }
+
+        .location-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .location-info.valid {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .location-info.invalid {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* History */
+        .history-item {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .history-date {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .history-details {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .history-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .history-badge.present {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .history-badge.late {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        /* KPI Section */
+        .kpi-summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 25px;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .kpi-summary h3 {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .kpi-item {
+            background: rgba(255,255,255,0.15);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .kpi-item .value {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .kpi-item .label {
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+
+        .kpi-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .kpi-card h4 {
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .progress-bar {
+            background: #eee;
+            border-radius: 10px;
+            height: 12px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s;
+        }
+
+        .progress-fill.green { background: linear-gradient(90deg, #11998e, #38ef7d); }
+        .progress-fill.orange { background: linear-gradient(90deg, #f093fb, #f5576c); }
+        .progress-fill.blue { background: linear-gradient(90deg, #667eea, #764ba2); }
+
+        /* AI Chat */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 200px);
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-message.user {
+            align-items: flex-end;
+        }
+
+        .chat-message.ai {
+            align-items: flex-start;
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+
+        .user .message-bubble {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .ai .message-bubble {
+            background: #f0f2f5;
+            color: #333;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 0.75em;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .chat-input-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 1em;
+            outline: none;
+        }
+
+        .chat-input:focus {
+            border-color: #667eea;
+        }
+
+        .send-btn {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 15px;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: #999;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 15px;
+            border: none;
+            background: none;
+            color: #999;
+            font-size: 0.75em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-item.active {
+            color: #667eea;
+        }
+
+        .nav-item .icon {
+            font-size: 1.8em;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            z-index: 3000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        .toast.success { background: #28a745; }
+        .toast.error { background: #dc3545; }
+        .toast.warning { background: #ffc107; color: #333; }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-logo">🔧</div>
+        <h1 class="login-title">Nala Teknisi</h1>
+        <p class="login-subtitle">Aplikasi Absensi & KPI</p>
+        
+        <div class="login-form">
+            <div class="form-group">
+                <label>Pilih Nama</label>
+                <select class="form-input" id="loginName">
+                    <option value="">-- Pilih Teknisi --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>PIN (4 digit)</label>
+                <input type="password" class="form-input pin-input" id="loginPin" maxlength="4" placeholder="••••">
+            </div>
+            <button class="btn btn-primary" onclick="login()">🔓 Masuk</button>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="app-container" id="appContainer">
+        <!-- Header -->
+        <div class="app-header">
+            <div class="header-top">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">S</div>
+                    <div>
+                        <div class="user-name" id="userName">Teknisi</div>
+                        <div class="user-role">Teknisi AC</div>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">Keluar</button>
+            </div>
+            <div class="date-display">
+                <div class="day" id="currentDay">Sabtu</div>
+                <div class="full-date" id="currentDate">14 Desember 2024</div>
+            </div>
+        </div>
+
+        <!-- Tab: Absensi -->
+        <div class="tab-content active" id="tabAbsensi">
+            <div class="attendance-card">
+                <div class="attendance-status">
+                    <div class="status-icon" id="attendanceIcon">🏠</div>
+                    <div class="status-text" id="attendanceText">Belum Check In</div>
+                    <div class="status-time" id="attendanceTime"></div>
+                </div>
+                
+                <div class="attendance-buttons">
+                    <button class="attendance-btn check-in" id="btnCheckIn" onclick="checkIn()">
+                        <span class="icon">📍</span>
+                        <span>Check In</span>
+                    </button>
+                    <button class="attendance-btn check-out" id="btnCheckOut" onclick="checkOut()" disabled>
+                        <span class="icon">🏁</span>
+                        <span>Check Out</span>
+                    </button>
+                </div>
+
+                <div class="location-info" id="locationInfo">
+                    📍 Mengambil lokasi...
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: 15px; color: #333;">📋 Riwayat Absensi</h3>
+            <div id="attendanceHistory">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- Tab: KPI -->
+        <div class="tab-content" id="tabKPI">
+            <div class="kpi-summary">
+                <h3>📊 Ringkasan Bulan Ini</h3>
+                <div class="kpi-grid">
+                    <div class="kpi-item">
+                        <div class="value" id="kpiTotalJobs">0</div>
+                        <div class="label">Total Job</div>
+                    </div>
+                    <div class="kpi-item">
+                        <div class="value" id="kpiTotalIncome">Rp 0</div>
+                        <div class="label">Pendapatan</div>
+                    </div>
+                    <div class="kpi-item">
+                        <div class="value" id="kpiWorkDays">0</div>
+                        <div class="label">Hari Kerja</div>
+                    </div>
+                    <div class="kpi-item">
+                        <div class="value" id="kpiAchievement">0%</div>
+                        <div class="label">Pencapaian</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <h4>🎯 Target vs Realisasi</h4>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span>Pencapaian Target</span>
+                    <span id="kpiProgressText">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill green" id="kpiProgressBar" style="width: 0%"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.85em; color: #666;">
+                    <span>Target: <span id="kpiTargetValue">Rp 0</span></span>
+                    <span>Tercapai: <span id="kpiReachedValue">Rp 0</span></span>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <h4>📅 Kehadiran Bulan Ini</h4>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span>Tingkat Kehadiran</span>
+                    <span id="attendanceProgressText">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill blue" id="attendanceProgressBar" style="width: 0%"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.85em; color: #666;">
+                    <span>Hadir: <span id="attendanceDays">0</span> hari</span>
+                    <span>Target: <span id="attendanceTarget">0</span> hari</span>
+                </div>
+            </div>
+
+            <h3 style="margin: 20px 0 15px; color: #333;">📋 Detail Pekerjaan Bulan Ini</h3>
+            <div id="kpiJobList">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- Tab: AI Assistant -->
+        <div class="tab-content" id="tabAI">
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="chat-message ai">
+                        <div class="message-bubble">
+                            Halo! 👋 Saya asisten AI Nala. Saya bisa membantu Anda dengan:
+                            <br><br>
+                            • Informasi tentang pekerjaan AC<br>
+                            • Tips perawatan AC<br>
+                            • Troubleshooting masalah AC<br>
+                            • Pertanyaan tentang KPI Anda<br>
+                            <br>
+                            Silakan tanya apa saja!
+                        </div>
+                        <span class="message-time">Just now</span>
+                    </div>
+                </div>
+                
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Ketik pesan..." onkeypress="handleChatKeypress(event)">
+                    <button class="send-btn" onclick="sendMessage()">➤</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-item active" onclick="showTab('tabAbsensi', this)">
+                <span class="icon">📍</span>
+                <span>Absensi</span>
+            </button>
+            <button class="nav-item" onclick="showTab('tabKPI', this)">
+                <span class="icon">📊</span>
+                <span>KPI</span>
+            </button>
+            <button class="nav-item" onclick="showTab('tabAI', this)">
+                <span class="icon">🤖</span>
+                <span>AI Assistant</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCx0pG1GxXFbAnt-mCVWAHG6sdaqlPkzfk",
+            authDomain: "kpiteknisi.firebaseapp.com",
+            projectId: "kpiteknisi",
+            storageBucket: "kpiteknisi.appspot.com",
+            messagingSenderId: "24578473",
+            appId: "1:24578473:web:kpiteknisi"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Claude API Key
+        const CLAUDE_API_KEY = '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';
+
+        // Current user
+        let currentUser = null;
+        let currentLocation = null;
+        let todayAttendance = null;
+        let validLocations = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            updateDateTime();
+            setInterval(updateDateTime, 60000);
+
+            // Load technicians for login
+            await loadTechniciansForLogin();
+            
+            // Load valid locations
+            await loadValidLocations();
+
+            // Check saved session
+            const savedUser = localStorage.getItem('nalaUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showApp();
+            }
+
+            // Start GPS tracking
+            startLocationTracking();
+        });
+
+        function updateDateTime() {
+            const now = new Date();
+            document.getElementById('currentDay').textContent = now.toLocaleDateString('id-ID', { weekday: 'long' });
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('id-ID', { 
+                day: 'numeric', 
+                month: 'long', 
+                year: 'numeric' 
+            });
+        }
+
+        // ==========================================
+        // LOGIN
+        // ==========================================
+
+        async function loadTechniciansForLogin() {
+            try {
+                const snapshot = await db.collection('technicians').where('active', '==', true).get();
+                const select = document.getElementById('loginName');
+                
+                snapshot.forEach(doc => {
+                    const tech = doc.data();
+                    select.innerHTML += `<option value="${doc.id}" data-pin="${tech.pin}">${tech.name}</option>`;
+                });
+            } catch (error) {
+                console.error('Error loading technicians:', error);
+            }
+        }
+
+        function login() {
+            const select = document.getElementById('loginName');
+            const pin = document.getElementById('loginPin').value;
+            
+            if (!select.value) {
+                showToast('Pilih nama terlebih dahulu', 'error');
+                return;
+            }
+
+            const selectedOption = select.options[select.selectedIndex];
+            const correctPin = selectedOption.dataset.pin;
+
+            if (pin !== correctPin) {
+                showToast('PIN salah!', 'error');
+                return;
+            }
+
+            currentUser = {
+                id: select.value,
+                name: selectedOption.text
+            };
+
+            localStorage.setItem('nalaUser', JSON.stringify(currentUser));
+            showApp();
+        }
+
+        function logout() {
+            localStorage.removeItem('nalaUser');
+            currentUser = null;
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('appContainer').classList.remove('active');
+        }
+
+        function showApp() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('appContainer').classList.add('active');
+            
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+
+            loadTodayAttendance();
+            loadAttendanceHistory();
+            loadKPIData();
+        }
+
+        // ==========================================
+        // LOCATION
+        // ==========================================
+
+        async function loadValidLocations() {
+            try {
+                const snapshot = await db.collection('locations').get();
+                validLocations = [];
+                snapshot.forEach(doc => {
+                    validLocations.push({ id: doc.id, ...doc.data() });
+                });
+            } catch (error) {
+                console.error('Error loading locations:', error);
+            }
+        }
+
+        let locationUpdateInterval = null;
+
+        function startLocationTracking() {
+            if (!navigator.geolocation) {
+                updateLocationInfo('GPS tidak tersedia', false);
+                return;
+            }
+
+            navigator.geolocation.watchPosition(
+                (position) => {
+                    currentLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                        accuracy: position.coords.accuracy
+                    };
+                    checkLocationValidity();
+                },
+                (error) => {
+                    updateLocationInfo('Gagal mendapatkan lokasi: ' + error.message, false);
+                },
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+            );
+
+            // Start sending location updates every 30 seconds
+            if (locationUpdateInterval) clearInterval(locationUpdateInterval);
+            locationUpdateInterval = setInterval(sendLocationUpdate, 30000);
+        }
+
+        async function sendLocationUpdate() {
+            if (!currentUser || !currentLocation) return;
+
+            try {
+                await db.collection('technician_locations').doc(currentUser.id).set({
+                    technicianId: currentUser.id,
+                    technicianName: currentUser.name,
+                    lat: currentLocation.lat,
+                    lng: currentLocation.lng,
+                    accuracy: currentLocation.accuracy,
+                    locationName: currentLocation.validLocationName || null,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                console.log('📍 Location updated');
+            } catch (error) {
+                console.error('Failed to send location:', error);
+            }
+        }
+
+        function checkLocationValidity() {
+            if (!currentLocation) return;
+
+            let nearestLocation = null;
+            let minDistance = Infinity;
+
+            validLocations.forEach(loc => {
+                const distance = calculateDistance(
+                    currentLocation.lat, currentLocation.lng,
+                    loc.lat, loc.lng
+                );
+                
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    nearestLocation = loc;
+                }
+            });
+
+            if (nearestLocation && minDistance <= nearestLocation.radius) {
+                updateLocationInfo(`✅ Lokasi valid: ${nearestLocation.name} (${Math.round(minDistance)}m)`, true);
+                currentLocation.validLocationId = nearestLocation.id;
+                currentLocation.validLocationName = nearestLocation.name;
+            } else if (nearestLocation) {
+                updateLocationInfo(`❌ Di luar radius absen. Jarak ke ${nearestLocation.name}: ${Math.round(minDistance)}m`, false);
+                currentLocation.validLocationId = null;
+                currentLocation.validLocationName = null;
+            } else {
+                updateLocationInfo('❌ Tidak ada lokasi absen terdaftar', false);
+            }
+
+            // Send location update immediately when location changes
+            if (currentUser) {
+                sendLocationUpdate();
+            }
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371000; // Earth radius in meters
+            const φ1 = lat1 * Math.PI / 180;
+            const φ2 = lat2 * Math.PI / 180;
+            const Δφ = (lat2 - lat1) * Math.PI / 180;
+            const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+            const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                      Math.cos(φ1) * Math.cos(φ2) *
+                      Math.sin(Δλ/2) * Math.sin(Δλ/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+            return R * c;
+        }
+
+        function updateLocationInfo(text, valid) {
+            const el = document.getElementById('locationInfo');
+            el.textContent = text;
+            el.className = 'location-info ' + (valid ? 'valid' : 'invalid');
+        }
+
+        // ==========================================
+        // ATTENDANCE
+        // ==========================================
+
+        async function loadTodayAttendance() {
+            if (!currentUser) return;
+
+            const today = new Date().toISOString().split('T')[0];
+            
+            try {
+                const snapshot = await db.collection('attendance')
+                    .where('date', '==', today)
+                    .where('technicianId', '==', currentUser.id)
+                    .get();
+
+                if (!snapshot.empty) {
+                    todayAttendance = { id: snapshot.docs[0].id, ...snapshot.docs[0].data() };
+                    updateAttendanceUI();
+                } else {
+                    todayAttendance = null;
+                    document.getElementById('attendanceIcon').textContent = '🏠';
+                    document.getElementById('attendanceText').textContent = 'Belum Check In';
+                    document.getElementById('attendanceTime').textContent = '';
+                    document.getElementById('btnCheckIn').disabled = false;
+                    document.getElementById('btnCheckOut').disabled = true;
+                }
+            } catch (error) {
+                console.error('Error loading today attendance:', error);
+            }
+        }
+
+        function updateAttendanceUI() {
+            if (!todayAttendance) return;
+
+            if (todayAttendance.checkOut) {
+                document.getElementById('attendanceIcon').textContent = '✅';
+                document.getElementById('attendanceText').textContent = 'Sudah Pulang';
+                const checkOutTime = new Date(todayAttendance.checkOut.seconds * 1000);
+                document.getElementById('attendanceTime').textContent = 
+                    `Check Out: ${checkOutTime.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}`;
+                document.getElementById('btnCheckIn').disabled = true;
+                document.getElementById('btnCheckOut').disabled = true;
+            } else if (todayAttendance.checkIn) {
+                document.getElementById('attendanceIcon').textContent = '💼';
+                document.getElementById('attendanceText').textContent = 'Sedang Bekerja';
+                const checkInTime = new Date(todayAttendance.checkIn.seconds * 1000);
+                document.getElementById('attendanceTime').textContent = 
+                    `Check In: ${checkInTime.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}`;
+                document.getElementById('btnCheckIn').disabled = true;
+                document.getElementById('btnCheckOut').disabled = false;
+            }
+        }
+
+        async function checkIn() {
+            if (!currentLocation || !currentLocation.validLocationId) {
+                showToast('Anda harus berada di lokasi yang valid untuk absen!', 'error');
+                return;
+            }
+
+            showLoading(true);
+
+            try {
+                const now = new Date();
+                const checkInHour = 8; // 08:00
+                const isLate = now.getHours() > checkInHour || (now.getHours() === checkInHour && now.getMinutes() > 0);
+
+                const attendanceData = {
+                    technicianId: currentUser.id,
+                    technicianName: currentUser.name,
+                    date: now.toISOString().split('T')[0],
+                    checkIn: firebase.firestore.FieldValue.serverTimestamp(),
+                    checkInLocation: {
+                        lat: currentLocation.lat,
+                        lng: currentLocation.lng
+                    },
+                    checkInLocationName: currentLocation.validLocationName,
+                    status: isLate ? 'late' : 'present'
+                };
+
+                const docRef = await db.collection('attendance').add(attendanceData);
+                todayAttendance = { id: docRef.id, ...attendanceData, checkIn: { seconds: now.getTime() / 1000 } };
+                
+                updateAttendanceUI();
+                showToast('Check In berhasil! ' + (isLate ? '(Terlambat)' : ''), isLate ? 'warning' : 'success');
+                loadAttendanceHistory();
+            } catch (error) {
+                console.error('Check in error:', error);
+                showToast('Gagal check in: ' + error.message, 'error');
+            }
+
+            showLoading(false);
+        }
+
+        async function checkOut() {
+            if (!todayAttendance) {
+                showToast('Anda belum check in!', 'error');
+                return;
+            }
+
+            if (!currentLocation || !currentLocation.validLocationId) {
+                showToast('Anda harus berada di lokasi yang valid untuk absen!', 'error');
+                return;
+            }
+
+            showLoading(true);
+
+            try {
+                await db.collection('attendance').doc(todayAttendance.id).update({
+                    checkOut: firebase.firestore.FieldValue.serverTimestamp(),
+                    checkOutLocation: {
+                        lat: currentLocation.lat,
+                        lng: currentLocation.lng
+                    },
+                    checkOutLocationName: currentLocation.validLocationName
+                });
+
+                todayAttendance.checkOut = { seconds: Date.now() / 1000 };
+                updateAttendanceUI();
+                showToast('Check Out berhasil!', 'success');
+                loadAttendanceHistory();
+            } catch (error) {
+                console.error('Check out error:', error);
+                showToast('Gagal check out: ' + error.message, 'error');
+            }
+
+            showLoading(false);
+        }
+
+        async function loadAttendanceHistory() {
+            if (!currentUser) return;
+
+            try {
+                const snapshot = await db.collection('attendance')
+                    .where('technicianId', '==', currentUser.id)
+                    .orderBy('date', 'desc')
+                    .limit(10)
+                    .get();
+
+                const historyContainer = document.getElementById('attendanceHistory');
+                
+                if (snapshot.empty) {
+                    historyContainer.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">Belum ada riwayat absensi</p>';
+                    return;
+                }
+
+                historyContainer.innerHTML = snapshot.docs.map(doc => {
+                    const att = doc.data();
+                    const checkInTime = att.checkIn ? new Date(att.checkIn.seconds * 1000).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : '-';
+                    const checkOutTime = att.checkOut ? new Date(att.checkOut.seconds * 1000).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : '-';
+                    const dateDisplay = new Date(att.date).toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' });
+                    
+                    const statusClass = att.status === 'late' ? 'late' : 'present';
+                    const statusText = att.status === 'late' ? 'Terlambat' : 'Hadir';
+
+                    return `
+                        <div class="history-item">
+                            <div class="history-date">
+                                ${dateDisplay}
+                                <span class="history-badge ${statusClass}">${statusText}</span>
+                            </div>
+                            <div class="history-details">
+                                <span>🕐 In: ${checkInTime}</span>
+                                <span>🕐 Out: ${checkOutTime}</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading history:', error);
+            }
+        }
+
+        // ==========================================
+        // KPI
+        // ==========================================
+
+        async function loadKPIData() {
+            if (!currentUser) return;
+
+            const now = new Date();
+            const startDate = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+            const endDate = now.toISOString().split('T')[0];
+
+            try {
+                // Load jobs from KPI database
+                const jobsSnapshot = await db.collection('jobs')
+                    .where('tanggal', '>=', startDate)
+                    .where('tanggal', '<=', endDate)
+                    .get();
+
+                const myJobs = [];
+                jobsSnapshot.forEach(doc => {
+                    const job = doc.data();
+                    if (job.teknisi && job.teknisi.toLowerCase().includes(currentUser.name.toLowerCase())) {
+                        myJobs.push({ id: doc.id, ...job });
+                    }
+                });
+
+                // Calculate KPI
+                const totalJobs = myJobs.length;
+                const totalIncome = myJobs.reduce((sum, job) => {
+                    const techCount = job.teknisi.split(',').length;
+                    return sum + Math.round((job.pemasukan || 0) / techCount);
+                }, 0);
+
+                // Count unique work days
+                const workDays = new Set(myJobs.map(j => j.tanggal)).size;
+
+                // Calculate target (350rb per day)
+                const targetPerDay = 350000;
+                const target = workDays * targetPerDay;
+                const achievement = target > 0 ? Math.round((totalIncome / target) * 100) : 0;
+
+                // Update UI
+                document.getElementById('kpiTotalJobs').textContent = totalJobs;
+                document.getElementById('kpiTotalIncome').textContent = formatRupiah(totalIncome);
+                document.getElementById('kpiWorkDays').textContent = workDays;
+                document.getElementById('kpiAchievement').textContent = achievement + '%';
+
+                document.getElementById('kpiProgressText').textContent = achievement + '%';
+                document.getElementById('kpiProgressBar').style.width = Math.min(achievement, 100) + '%';
+                document.getElementById('kpiTargetValue').textContent = formatRupiah(target);
+                document.getElementById('kpiReachedValue').textContent = formatRupiah(totalIncome);
+
+                // Load attendance for this month
+                const attendanceSnapshot = await db.collection('attendance')
+                    .where('technicianId', '==', currentUser.id)
+                    .where('date', '>=', startDate)
+                    .where('date', '<=', endDate)
+                    .get();
+
+                const attendanceDays = attendanceSnapshot.size;
+                const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+                const attendancePercent = Math.round((attendanceDays / daysInMonth) * 100);
+
+                document.getElementById('attendanceProgressText').textContent = attendancePercent + '%';
+                document.getElementById('attendanceProgressBar').style.width = attendancePercent + '%';
+                document.getElementById('attendanceDays').textContent = attendanceDays;
+                document.getElementById('attendanceTarget').textContent = daysInMonth;
+
+                // Render job list
+                renderKPIJobList(myJobs);
+
+            } catch (error) {
+                console.error('Error loading KPI:', error);
+            }
+        }
+
+        function renderKPIJobList(jobs) {
+            const container = document.getElementById('kpiJobList');
+            
+            if (jobs.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">Belum ada pekerjaan bulan ini</p>';
+                return;
+            }
+
+            // Group by date
+            const grouped = {};
+            jobs.forEach(job => {
+                if (!grouped[job.tanggal]) grouped[job.tanggal] = [];
+                grouped[job.tanggal].push(job);
+            });
+
+            container.innerHTML = Object.entries(grouped)
+                .sort((a, b) => b[0].localeCompare(a[0]))
+                .slice(0, 5)
+                .map(([date, dayJobs]) => {
+                    const dateDisplay = new Date(date).toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' });
+                    const dayTotal = dayJobs.reduce((sum, j) => sum + Math.round((j.pemasukan || 0) / j.teknisi.split(',').length), 0);
+
+                    return `
+                        <div class="kpi-card">
+                            <h4>📅 ${dateDisplay} - ${formatRupiah(dayTotal)}</h4>
+                            ${dayJobs.map(job => `
+                                <div style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                                    <div style="font-weight: 600;">${job.jasa}</div>
+                                    <div style="font-size: 0.85em; color: #666;">
+                                        📍 ${job.customer} • 💰 ${formatRupiah(Math.round((job.pemasukan || 0) / job.teknisi.split(',').length))}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }).join('');
+        }
+
+        function formatRupiah(num) {
+            return 'Rp ' + (num || 0).toLocaleString('id-ID');
+        }
+
+        // ==========================================
+        // AI CHAT
+        // ==========================================
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            // Add user message
+            addChatMessage(message, 'user');
+            input.value = '';
+
+            // Show typing indicator
+            showTypingIndicator();
+
+            try {
+                const response = await callClaudeAPI(message);
+                hideTypingIndicator();
+                addChatMessage(response, 'ai');
+            } catch (error) {
+                hideTypingIndicator();
+                addChatMessage('Maaf, terjadi kesalahan. Silakan coba lagi.', 'ai');
+                console.error('AI Error:', error);
+            }
+        }
+
+        function handleChatKeypress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function addChatMessage(text, sender) {
+            const container = document.getElementById('chatMessages');
+            const time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${sender}`;
+            messageDiv.innerHTML = `
+                <div class="message-bubble">${text}</div>
+                <span class="message-time">${time}</span>
+            `;
+            
+            container.appendChild(messageDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const container = document.getElementById('chatMessages');
+            const indicator = document.createElement('div');
+            indicator.className = 'chat-message ai';
+            indicator.id = 'typingIndicator';
+            indicator.innerHTML = `
+                <div class="message-bubble">
+                    <div class="typing-indicator">
+                        <span></span><span></span><span></span>
+                    </div>
+                </div>
+            `;
+            container.appendChild(indicator);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) indicator.remove();
+        }
+
+        async function callClaudeAPI(userMessage) {
+            // Note: Direct browser calls to Claude API have CORS restrictions
+            // Using local AI responses for now - for full Claude integration, 
+            // you'd need a backend proxy server
+            
+            // Try to use enhanced local responses
+            return getLocalResponse(userMessage);
+        }
+
+        function getLocalResponse(message) {
+            const lowerMsg = message.toLowerCase();
+            
+            // Freon related
+            if (lowerMsg.includes('freon') || lowerMsg.includes('isi') || lowerMsg.includes('refrigerant')) {
+                if (lowerMsg.includes('r32')) {
+                    return '❄️ **R32 Refrigerant:**\n\nR32 adalah freon ramah lingkungan dengan GWP rendah.\n\n📋 Spesifikasi:\n• Tekanan kerja: 90-100 psi (low side)\n• Suhu discharge: max 120°C\n• Tidak boleh dicampur dengan R22/R410A\n\n⚠️ Perhatian: R32 sedikit flammable, pastikan ventilasi baik!';
+                }
+                if (lowerMsg.includes('r410') || lowerMsg.includes('410a')) {
+                    return '❄️ **R410A Refrigerant:**\n\nR410A adalah pengganti R22 untuk AC inverter.\n\n📋 Spesifikasi:\n• Tekanan kerja: 110-130 psi (low side)\n• Harus charge dalam fase cair\n• Butuh manifold khusus R410A\n\n💡 Tips: Selalu vacuum dulu sebelum charging!';
+                }
+                return '💨 **Tips Isi Freon:**\n\n1. Pastikan AC dalam keadaan mati\n2. Hubungkan manifold gauge ke service port\n3. Cek tekanan existing\n4. Tambahkan freon sesuai spesifikasi:\n   • R22: 65-70 psi\n   • R32: 90-100 psi\n   • R410A: 110-130 psi\n5. Monitor tekanan hingga sesuai\n6. Cek kebocoran dengan sabun\n\n⚠️ Selalu gunakan APD dan pastikan ventilasi baik!';
+            }
+            
+            // Cuci AC
+            if (lowerMsg.includes('cuci') || lowerMsg.includes('cleaning') || lowerMsg.includes('bersih')) {
+                return '🧹 **Prosedur Cuci AC:**\n\n1. Matikan AC dan cabut power\n2. Buka cover dan filter\n3. Rendam filter di air sabun\n4. Semprot evaporator dengan AC cleaner\n5. Diamkan 15-20 menit\n6. Bilas dengan air bersih (hati-hati PCB)\n7. Bersihkan drain pan dan pipa drain\n8. Keringkan dan pasang kembali\n9. Test run 15 menit\n\n💰 Harga standar: Rp 75.000 - 150.000\n✨ Sarankan ke customer: cuci rutin setiap 3 bulan!';
+            }
+            
+            // AC tidak dingin
+            if (lowerMsg.includes('tidak dingin') || lowerMsg.includes('kurang dingin') || lowerMsg.includes('ga dingin') || lowerMsg.includes('gak dingin')) {
+                return '❄️ **AC Tidak Dingin? Cek ini:**\n\n1. **Filter kotor** → Bersihkan/cuci\n2. **Freon kurang** → Isi ulang + cek bocor\n3. **Kompresor lemah** → Cek ampere (normal: 3-6A per PK)\n4. **Evaporator berdebu** → Cuci AC\n5. **Kapasitor rusak** → Ganti (cek dengan multimeter)\n6. **Thermostat error** → Kalibrasi/ganti sensor\n7. **Fan indoor pelan** → Cek motor/kapasitor\n\n🔍 Statistik: 70% kasus karena filter kotor atau freon kurang!';
+            }
+            
+            // KPI & Target
+            if (lowerMsg.includes('kpi') || lowerMsg.includes('target') || lowerMsg.includes('gaji') || lowerMsg.includes('pendapatan')) {
+                return '📊 **Info KPI Nala Aircon:**\n\nTarget harian: **Rp 350.000** per teknisi\nTarget bulanan: ~**Rp 9.100.000** (26 hari kerja)\n\n💡 **Tips capai target:**\n• Utamakan job dengan value tinggi\n• Tawarkan cuci AC saat service\n• Upsell: ganti kapasitor, tambah freon\n• Jaga kualitas → repeat order\n• Minta referensi dari customer puas\n\n📈 Bonus jika melebihi target!';
+            }
+            
+            // Kompresor
+            if (lowerMsg.includes('kompresor') || lowerMsg.includes('compressor')) {
+                return '🔧 **Troubleshoot Kompresor:**\n\n**Gejala & Solusi:**\n\n1. **Tidak start sama sekali**\n   → Cek kapasitor, overload, relay\n\n2. **Start lalu mati (trip)**\n   → Freon berlebih, kondensor kotor, overload rusak\n\n3. **Bunyi berisik**\n   → Bearing aus, mounting longgar\n\n4. **Ampere tinggi**\n   → Freon lebih, kondensor kotor, kompresor lemah\n\n📏 Ampere normal: 3-6A per PK';
+            }
+            
+            // PCB / Inverter
+            if (lowerMsg.includes('pcb') || lowerMsg.includes('inverter') || lowerMsg.includes('board')) {
+                return '🔌 **Troubleshoot PCB/Inverter:**\n\n**Error umum:**\n\n1. **E1/E2** → Sensor suhu rusak\n2. **E3** → Komunikasi indoor-outdoor error\n3. **E4** → Proteksi kompresor\n4. **E5** → Inverter module error\n5. **E6** → Fan motor error\n\n💡 **Tips:**\n• Cek konektor dan kabel putus\n• Bersihkan PCB dari debu\n• Cek tegangan listrik (220V±10%)\n• Reset: cabut power 5 menit';
+            }
+            
+            // Instalasi
+            if (lowerMsg.includes('instal') || lowerMsg.includes('pasang') || lowerMsg.includes('pipa')) {
+                return '🔧 **Tips Instalasi AC:**\n\n**Standar pemasangan:**\n\n1. **Jarak indoor-outdoor:** max 15m (standar 5m)\n2. **Beda ketinggian:** max 10m\n3. **Pipa refrigerant:**\n   • 1/2 - 1 PK: 1/4" + 3/8"\n   • 1.5 - 2 PK: 1/4" + 1/2"\n4. **Bracket outdoor:** beton/besi kuat\n5. **Kabel power:** min 2.5mm²\n\n💰 **Harga instalasi standar:** Rp 350.000 - 500.000\n⚠️ Selalu vacuum sebelum release freon!';
+            }
+            
+            // Harga / Price list
+            if (lowerMsg.includes('harga') || lowerMsg.includes('tarif') || lowerMsg.includes('biaya') || lowerMsg.includes('price')) {
+                return '💰 **Tarif Standar Nala Aircon:**\n\n**Service:**\n• Cuci AC: Rp 75.000 - 150.000\n• Service ringan: Rp 50.000 - 100.000\n• Isi freon: Rp 150.000 - 300.000\n\n**Instalasi:**\n• Pasang baru: Rp 350.000 - 500.000\n• Bongkar pasang: Rp 400.000 - 600.000\n\n**Sparepart:**\n• Kapasitor: Rp 50.000 - 150.000\n• Fan motor: Rp 200.000 - 400.000\n• PCB: Rp 500.000 - 1.500.000';
+            }
+
+            // Greeting
+            if (lowerMsg.includes('halo') || lowerMsg.includes('hai') || lowerMsg.includes('hi') || lowerMsg.includes('hello') || lowerMsg === 'p') {
+                return '👋 Halo! Saya asisten AI Nala Aircon.\n\nSaya siap membantu Anda dengan:\n• 🔧 Troubleshooting AC\n• 💨 Cara isi freon\n• 🧹 Prosedur cuci AC\n• 📊 Info KPI & target\n• 💰 Informasi harga\n• 🔌 Masalah PCB/inverter\n\nSilakan tanya apa saja!';
+            }
+            
+            // Default response
+            return '🤖 Saya asisten AI Nala Aircon.\n\nSaya bisa membantu tentang:\n• Cara isi freon (R22/R32/R410A)\n• Prosedur cuci AC\n• Troubleshooting AC tidak dingin\n• Masalah kompresor\n• Error code PCB/inverter\n• Info KPI dan target\n• Tarif/harga service\n\nCoba tanya dengan kata kunci spesifik ya! Contoh: "cara isi freon R32" atau "AC tidak dingin"';
+        }
+
+        // ==========================================
+        // UTILITIES
+        // ==========================================
+
+        function showTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+
+            if (tabId === 'tabKPI') {
+                loadKPIData();
+            }
+        }
+
+        function showLoading(show) {
+            document.getElementById('loadingOverlay').classList.toggle('active', show);
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show ' + type;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Make functions global
+        window.login = login;
+        window.logout = logout;
+        window.showTab = showTab;
+        window.checkIn = checkIn;
+        window.checkOut = checkOut;
+        window.sendMessage = sendMessage;
+        window.handleChatKeypress = handleChatKeypress;
+    </script>
+</body>
+</html>
