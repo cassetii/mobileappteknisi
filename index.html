@@ -823,6 +823,9 @@
             
             // Load valid locations
             await loadValidLocations();
+            
+            // Load knowledge base untuk AI
+            await loadKnowledgeBase();
 
             // Check saved session
             const savedUser = localStorage.getItem('nalaUser');
@@ -892,6 +895,7 @@
         function logout() {
             localStorage.removeItem('nalaUser');
             currentUser = null;
+            resetConversation(); // Reset chat history saat logout
             document.getElementById('loginScreen').classList.remove('hidden');
             document.getElementById('appContainer').classList.remove('active');
         }
@@ -1404,8 +1408,74 @@
 
         // URL Cloudflare Worker
         const CLAUDE_PROXY_URL = 'https://nala-ai.syntaxvlad.workers.dev';
+        
+        // Conversation history - menyimpan semua percakapan
+        let conversationHistory = [];
+        
+        // Knowledge base dari Firebase
+        let knowledgeBase = '';
+
+        // Load knowledge base saat app dimulai
+        async function loadKnowledgeBase() {
+            try {
+                const snapshot = await db.collection('knowledge_base').get();
+                
+                let harga = [], sop = [], faq = [], produk = [];
+                
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (data.type === 'harga') harga.push(data);
+                    else if (data.type === 'sop') sop.push(data);
+                    else if (data.type === 'faq') faq.push(data);
+                    else if (data.type === 'produk') produk.push(data);
+                });
+
+                let kb = '';
+                
+                if (harga.length > 0) {
+                    kb += `\n## DAFTAR HARGA LAYANAN:\n`;
+                    harga.forEach(item => {
+                        kb += `- ${item.nama}: Rp ${item.harga}`;
+                        if (item.keterangan) kb += ` (${item.keterangan})`;
+                        kb += `\n`;
+                    });
+                }
+
+                if (sop.length > 0) {
+                    kb += `\n## PROSEDUR STANDAR (SOP):\n`;
+                    sop.forEach(item => {
+                        kb += `### ${item.nama}:\n${item.langkah}\n\n`;
+                    });
+                }
+
+                if (faq.length > 0) {
+                    kb += `\n## FAQ:\n`;
+                    faq.forEach(item => {
+                        kb += `Q: ${item.pertanyaan}\nA: ${item.jawaban}\n\n`;
+                    });
+                }
+
+                if (produk.length > 0) {
+                    kb += `\n## INFO PRODUK & MERK:\n`;
+                    produk.forEach(item => {
+                        kb += `### ${item.nama}:\n${item.info}\n\n`;
+                    });
+                }
+
+                knowledgeBase = kb;
+                console.log('✅ Knowledge base loaded');
+            } catch (error) {
+                console.error('Error loading knowledge base:', error);
+            }
+        }
 
         async function callClaudeAPI(userMessage) {
+            // Tambahkan pesan user ke history
+            conversationHistory.push({
+                role: 'user',
+                content: userMessage
+            });
+
             // Jika proxy URL belum diset, gunakan respons lokal
             if (CLAUDE_PROXY_URL === 'YOUR_CLOUDFLARE_WORKER_URL') {
                 return getLocalResponse(userMessage);
@@ -1417,21 +1487,37 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ message: userMessage }),
+                    body: JSON.stringify({ 
+                        messages: conversationHistory,
+                        knowledgeBase: knowledgeBase
+                    }),
                 });
 
                 const data = await response.json();
 
                 if (data.error) {
                     console.error('Claude API error:', data.error);
-                    return getLocalResponse(userMessage); // Fallback ke lokal
+                    conversationHistory.pop();
+                    return getLocalResponse(userMessage);
                 }
+
+                // Tambahkan respons AI ke history
+                conversationHistory.push({
+                    role: 'assistant',
+                    content: data.response
+                });
 
                 return data.response;
             } catch (error) {
                 console.error('Failed to call Claude:', error);
-                return getLocalResponse(userMessage); // Fallback ke lokal
+                conversationHistory.pop();
+                return getLocalResponse(userMessage);
             }
+        }
+        
+        // Fungsi untuk reset conversation (misal saat logout)
+        function resetConversation() {
+            conversationHistory = [];
         }
 
         function getLocalResponse(message) {
