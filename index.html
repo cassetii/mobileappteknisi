@@ -1352,14 +1352,28 @@
             }
         }
 
+        // Convert markdown-like text to HTML
+        function formatAIResponse(text) {
+            return text
+                // Bold: **text** → <strong>text</strong>
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                // Newlines → <br>
+                .replace(/\n/g, '<br>')
+                // Bullet points: • → proper spacing
+                .replace(/• /g, '&nbsp;&nbsp;• ');
+        }
+
         function addChatMessage(text, sender) {
             const container = document.getElementById('chatMessages');
             const time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
             
+            // Format AI responses to render properly
+            const formattedText = sender === 'ai' ? formatAIResponse(text) : text;
+            
             const messageDiv = document.createElement('div');
             messageDiv.className = `chat-message ${sender}`;
             messageDiv.innerHTML = `
-                <div class="message-bubble">${text}</div>
+                <div class="message-bubble">${formattedText}</div>
                 <span class="message-time">${time}</span>
             `;
             
@@ -1388,71 +1402,115 @@
             if (indicator) indicator.remove();
         }
 
+        // URL Cloudflare Worker
+        const CLAUDE_PROXY_URL = 'https://nala-ai.syntaxvlad.workers.dev';
+
         async function callClaudeAPI(userMessage) {
-            // Note: Direct browser calls to Claude API have CORS restrictions
-            // Using local AI responses for now - for full Claude integration, 
-            // you'd need a backend proxy server
-            
-            // Try to use enhanced local responses
-            return getLocalResponse(userMessage);
+            // Jika proxy URL belum diset, gunakan respons lokal
+            if (CLAUDE_PROXY_URL === 'YOUR_CLOUDFLARE_WORKER_URL') {
+                return getLocalResponse(userMessage);
+            }
+
+            try {
+                const response = await fetch(CLAUDE_PROXY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: userMessage }),
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    console.error('Claude API error:', data.error);
+                    return getLocalResponse(userMessage); // Fallback ke lokal
+                }
+
+                return data.response;
+            } catch (error) {
+                console.error('Failed to call Claude:', error);
+                return getLocalResponse(userMessage); // Fallback ke lokal
+            }
         }
 
         function getLocalResponse(message) {
             const lowerMsg = message.toLowerCase();
             
             // Freon related
-            if (lowerMsg.includes('freon') || lowerMsg.includes('isi') || lowerMsg.includes('refrigerant')) {
+            if (lowerMsg.includes('freon') || lowerMsg.includes('refrigerant')) {
                 if (lowerMsg.includes('r32')) {
-                    return '❄️ **R32 Refrigerant:**\n\nR32 adalah freon ramah lingkungan dengan GWP rendah.\n\n📋 Spesifikasi:\n• Tekanan kerja: 90-100 psi (low side)\n• Suhu discharge: max 120°C\n• Tidak boleh dicampur dengan R22/R410A\n\n⚠️ Perhatian: R32 sedikit flammable, pastikan ventilasi baik!';
+                    return '❄️ R32 Refrigerant:\n\nFreon ramah lingkungan untuk AC baru.\n\nTekanan normal:\n• Low side: 90-100 psi\n• High side: 280-320 psi\n\nPERHATIAN:\n• Sedikit mudah terbakar\n• Jangan campur dengan R22/R410A\n• Pakai manifold khusus R32';
                 }
                 if (lowerMsg.includes('r410') || lowerMsg.includes('410a')) {
-                    return '❄️ **R410A Refrigerant:**\n\nR410A adalah pengganti R22 untuk AC inverter.\n\n📋 Spesifikasi:\n• Tekanan kerja: 110-130 psi (low side)\n• Harus charge dalam fase cair\n• Butuh manifold khusus R410A\n\n💡 Tips: Selalu vacuum dulu sebelum charging!';
+                    return '❄️ R410A Refrigerant:\n\nFreon untuk AC inverter.\n\nTekanan normal:\n• Low side: 110-130 psi\n• High side: 350-400 psi\n\nPERHATIAN:\n• Charge dalam fase CAIR (botol terbalik)\n• Pakai manifold khusus R410A\n• Vacuum dulu sebelum isi';
                 }
-                return '💨 **Tips Isi Freon:**\n\n1. Pastikan AC dalam keadaan mati\n2. Hubungkan manifold gauge ke service port\n3. Cek tekanan existing\n4. Tambahkan freon sesuai spesifikasi:\n   • R22: 65-70 psi\n   • R32: 90-100 psi\n   • R410A: 110-130 psi\n5. Monitor tekanan hingga sesuai\n6. Cek kebocoran dengan sabun\n\n⚠️ Selalu gunakan APD dan pastikan ventilasi baik!';
+                if (lowerMsg.includes('r22')) {
+                    return '❄️ R22 Refrigerant:\n\nFreon AC lama (sudah langka).\n\nTekanan normal:\n• Low side: 65-70 psi\n• High side: 200-250 psi\n\nINFO:\n• Sudah tidak diproduksi\n• Harga makin mahal\n• Bisa charge gas atau cair';
+                }
+                if (lowerMsg.includes('isi') || lowerMsg.includes('tambah') || lowerMsg.includes('charge') || lowerMsg.includes('cara')) {
+                    return '💨 Cara Isi Freon:\n\n1. Pasang manifold ke service port\n2. Cek tekanan awal\n3. Jika 0 = bocor, cari dulu bocorannya\n4. Vacuum 15-30 menit\n5. Isi freon pelan-pelan\n6. Pantau tekanan:\n   - R22: 65-70 psi\n   - R32: 90-100 psi\n   - R410A: 110-130 psi\n7. Cek ampere kompresor\n8. Test run 15 menit';
+                }
+                return '💨 Info Freon:\n\nJenis dan tekanan:\n• R22: 65-70 psi (AC lama)\n• R32: 90-100 psi (AC baru)\n• R410A: 110-130 psi (inverter)\n\nMau tanya apa?\n- "cara isi freon"\n- "tekanan r32"\n- "r410a"';
             }
             
             // Cuci AC
             if (lowerMsg.includes('cuci') || lowerMsg.includes('cleaning') || lowerMsg.includes('bersih')) {
-                return '🧹 **Prosedur Cuci AC:**\n\n1. Matikan AC dan cabut power\n2. Buka cover dan filter\n3. Rendam filter di air sabun\n4. Semprot evaporator dengan AC cleaner\n5. Diamkan 15-20 menit\n6. Bilas dengan air bersih (hati-hati PCB)\n7. Bersihkan drain pan dan pipa drain\n8. Keringkan dan pasang kembali\n9. Test run 15 menit\n\n💰 Harga standar: Rp 75.000 - 150.000\n✨ Sarankan ke customer: cuci rutin setiap 3 bulan!';
+                return '🧹 Cara Cuci AC:\n\n1. Matikan AC, cabut colokan\n2. Buka cover dan filter\n3. Cuci filter pakai sabun\n4. Tutup PCB pakai plastik\n5. Semprot evaporator pakai AC cleaner\n6. Tunggu 15 menit\n7. Bilas dengan air (hati-hati PCB!)\n8. Bersihkan drain pan\n9. Cek saluran drain lancar\n10. Pasang semua, test 15 menit\n\nHarga: Rp 75rb - 150rb';
             }
             
             // AC tidak dingin
-            if (lowerMsg.includes('tidak dingin') || lowerMsg.includes('kurang dingin') || lowerMsg.includes('ga dingin') || lowerMsg.includes('gak dingin')) {
-                return '❄️ **AC Tidak Dingin? Cek ini:**\n\n1. **Filter kotor** → Bersihkan/cuci\n2. **Freon kurang** → Isi ulang + cek bocor\n3. **Kompresor lemah** → Cek ampere (normal: 3-6A per PK)\n4. **Evaporator berdebu** → Cuci AC\n5. **Kapasitor rusak** → Ganti (cek dengan multimeter)\n6. **Thermostat error** → Kalibrasi/ganti sensor\n7. **Fan indoor pelan** → Cek motor/kapasitor\n\n🔍 Statistik: 70% kasus karena filter kotor atau freon kurang!';
+            if (lowerMsg.includes('tidak dingin') || lowerMsg.includes('kurang dingin') || lowerMsg.includes('ga dingin') || lowerMsg.includes('gak dingin') || lowerMsg.includes('tdk dingin') || lowerMsg.includes('panas')) {
+                return '❄️ AC Tidak Dingin?\n\nCek urutan ini:\n\n1. Filter kotor? → Cuci filter\n2. Evaporator kotor? → Cuci AC\n3. Freon kurang? → Cek tekanan\n4. Pipa outdoor hangat? → Freon bocor/habis\n5. Kompresor mati? → Cek kapasitor\n6. Outdoor fan mati? → Cek kapasitor fan\n\n70% masalah karena kotor atau freon kurang!';
             }
             
             // KPI & Target
-            if (lowerMsg.includes('kpi') || lowerMsg.includes('target') || lowerMsg.includes('gaji') || lowerMsg.includes('pendapatan')) {
-                return '📊 **Info KPI Nala Aircon:**\n\nTarget harian: **Rp 350.000** per teknisi\nTarget bulanan: ~**Rp 9.100.000** (26 hari kerja)\n\n💡 **Tips capai target:**\n• Utamakan job dengan value tinggi\n• Tawarkan cuci AC saat service\n• Upsell: ganti kapasitor, tambah freon\n• Jaga kualitas → repeat order\n• Minta referensi dari customer puas\n\n📈 Bonus jika melebihi target!';
+            if (lowerMsg.includes('kpi') || lowerMsg.includes('target')) {
+                return '📊 Target KPI:\n\nPer hari: Rp 350.000\nPer bulan: ± Rp 9 juta\n\nTips capai target:\n• Ambil job value tinggi\n• Tawarkan cuci saat service\n• Upsell freon & kapasitor\n• Jaga kualitas = repeat order\n\nCek pencapaianmu di tab KPI 📊';
             }
             
             // Kompresor
             if (lowerMsg.includes('kompresor') || lowerMsg.includes('compressor')) {
-                return '🔧 **Troubleshoot Kompresor:**\n\n**Gejala & Solusi:**\n\n1. **Tidak start sama sekali**\n   → Cek kapasitor, overload, relay\n\n2. **Start lalu mati (trip)**\n   → Freon berlebih, kondensor kotor, overload rusak\n\n3. **Bunyi berisik**\n   → Bearing aus, mounting longgar\n\n4. **Ampere tinggi**\n   → Freon lebih, kondensor kotor, kompresor lemah\n\n📏 Ampere normal: 3-6A per PK';
+                return '🔧 Masalah Kompresor:\n\nTidak start:\n→ Cek kapasitor, overload, relay\n\nStart lalu mati:\n→ Freon kebanyakan atau kondensor kotor\n\nBunyi berisik:\n→ Bearing aus\n\nAmpere tinggi:\n→ Kondensor kotor, freon lebih\n\nAmpere normal: 3-6A per PK';
             }
             
-            // PCB / Inverter
-            if (lowerMsg.includes('pcb') || lowerMsg.includes('inverter') || lowerMsg.includes('board')) {
-                return '🔌 **Troubleshoot PCB/Inverter:**\n\n**Error umum:**\n\n1. **E1/E2** → Sensor suhu rusak\n2. **E3** → Komunikasi indoor-outdoor error\n3. **E4** → Proteksi kompresor\n4. **E5** → Inverter module error\n5. **E6** → Fan motor error\n\n💡 **Tips:**\n• Cek konektor dan kabel putus\n• Bersihkan PCB dari debu\n• Cek tegangan listrik (220V±10%)\n• Reset: cabut power 5 menit';
+            // PCB / Inverter / Error
+            if (lowerMsg.includes('pcb') || lowerMsg.includes('inverter') || lowerMsg.includes('error') || lowerMsg.includes('e1') || lowerMsg.includes('e2') || lowerMsg.includes('e3') || lowerMsg.includes('e4') || lowerMsg.includes('e5')) {
+                return '🔌 Error Code AC:\n\nE1/E2 = Sensor suhu rusak\n→ Ganti thermistor\n\nE3 = Kabel indoor-outdoor putus\n→ Cek konektor\n\nE4 = Proteksi kompresor\n→ Cek freon & ampere\n\nE5 = Modul inverter error\n→ Cek tegangan listrik\n\nCoba reset: cabut power 5 menit';
             }
             
-            // Instalasi
-            if (lowerMsg.includes('instal') || lowerMsg.includes('pasang') || lowerMsg.includes('pipa')) {
-                return '🔧 **Tips Instalasi AC:**\n\n**Standar pemasangan:**\n\n1. **Jarak indoor-outdoor:** max 15m (standar 5m)\n2. **Beda ketinggian:** max 10m\n3. **Pipa refrigerant:**\n   • 1/2 - 1 PK: 1/4" + 3/8"\n   • 1.5 - 2 PK: 1/4" + 1/2"\n4. **Bracket outdoor:** beton/besi kuat\n5. **Kabel power:** min 2.5mm²\n\n💰 **Harga instalasi standar:** Rp 350.000 - 500.000\n⚠️ Selalu vacuum sebelum release freon!';
+            // Kapasitor
+            if (lowerMsg.includes('kapasitor') || lowerMsg.includes('capasitor') || lowerMsg.includes('capacitor')) {
+                return '⚡ Kapasitor AC:\n\nGejala rusak:\n• Kompresor/fan tidak mau start\n• Bunyi humming tapi tidak jalan\n\nCara cek:\n1. Matikan power\n2. Ukur pakai multimeter\n3. Bandingkan dengan nilai di body\n\nUkuran umum:\n• Fan: 1.5-3 uF\n• Kompresor: 25-45 uF\n\nHarga: Rp 50rb - 150rb';
             }
             
-            // Harga / Price list
-            if (lowerMsg.includes('harga') || lowerMsg.includes('tarif') || lowerMsg.includes('biaya') || lowerMsg.includes('price')) {
-                return '💰 **Tarif Standar Nala Aircon:**\n\n**Service:**\n• Cuci AC: Rp 75.000 - 150.000\n• Service ringan: Rp 50.000 - 100.000\n• Isi freon: Rp 150.000 - 300.000\n\n**Instalasi:**\n• Pasang baru: Rp 350.000 - 500.000\n• Bongkar pasang: Rp 400.000 - 600.000\n\n**Sparepart:**\n• Kapasitor: Rp 50.000 - 150.000\n• Fan motor: Rp 200.000 - 400.000\n• PCB: Rp 500.000 - 1.500.000';
+            // Instalasi / Pasang
+            if (lowerMsg.includes('pasang') || lowerMsg.includes('instal')) {
+                return '🔧 Pasang AC:\n\nUkuran pipa:\n• 1 PK: 1/4" + 3/8"\n• 2 PK: 1/4" + 1/2"\n\nAturan:\n• Jarak max 15 meter\n• Beda tinggi max 10 meter\n\nLangkah:\n1. Pasang bracket\n2. Pasang pipa + kabel + drain\n3. Flaring yang rapat!\n4. Vacuum 15-30 menit\n5. Buka valve freon\n6. Test 30 menit\n\nHarga: Rp 350rb - 500rb';
+            }
+            
+            // Harga
+            if (lowerMsg.includes('harga') || lowerMsg.includes('tarif') || lowerMsg.includes('biaya') || lowerMsg.includes('berapa')) {
+                return '💰 Tarif Service:\n\nCuci AC: Rp 75rb - 150rb\nService ringan: Rp 50rb - 100rb\nIsi freon: Rp 150rb - 300rb\nPasang baru: Rp 350rb - 500rb\n\nSparepart:\n• Kapasitor: Rp 50rb - 150rb\n• Thermistor: Rp 75rb - 150rb\n• Fan motor: Rp 200rb - 400rb\n• PCB: Rp 500rb - 1.5jt';
+            }
+            
+            // Bocor air
+            if (lowerMsg.includes('bocor') || lowerMsg.includes('netes') || lowerMsg.includes('air')) {
+                return '💧 AC Bocor Air:\n\nPenyebab:\n1. Drain tersumbat → Sedot/tiup\n2. Drain pan kotor → Bersihkan\n3. Filter kotor → Cuci\n4. Freon kurang (evap beku) → Isi freon\n5. Pipa drain naik → Perbaiki posisi\n\nPaling sering: Drain tersumbat lumut!';
             }
 
             // Greeting
-            if (lowerMsg.includes('halo') || lowerMsg.includes('hai') || lowerMsg.includes('hi') || lowerMsg.includes('hello') || lowerMsg === 'p') {
-                return '👋 Halo! Saya asisten AI Nala Aircon.\n\nSaya siap membantu Anda dengan:\n• 🔧 Troubleshooting AC\n• 💨 Cara isi freon\n• 🧹 Prosedur cuci AC\n• 📊 Info KPI & target\n• 💰 Informasi harga\n• 🔌 Masalah PCB/inverter\n\nSilakan tanya apa saja!';
+            if (lowerMsg.includes('halo') || lowerMsg.includes('hai') || lowerMsg.includes('hi') || lowerMsg === 'p' || lowerMsg === 'hallo' || lowerMsg === 'hey') {
+                return '👋 Halo! Saya AI Nala.\n\nTanya saya tentang:\n• AC tidak dingin\n• Cara isi freon\n• Cuci AC\n• Error code\n• Harga service\n• Kapasitor\n• Pasang AC\n\nKetik pertanyaanmu!';
             }
             
-            // Default response
-            return '🤖 Saya asisten AI Nala Aircon.\n\nSaya bisa membantu tentang:\n• Cara isi freon (R22/R32/R410A)\n• Prosedur cuci AC\n• Troubleshooting AC tidak dingin\n• Masalah kompresor\n• Error code PCB/inverter\n• Info KPI dan target\n• Tarif/harga service\n\nCoba tanya dengan kata kunci spesifik ya! Contoh: "cara isi freon R32" atau "AC tidak dingin"';
+            // Thanks
+            if (lowerMsg.includes('terima kasih') || lowerMsg.includes('makasih') || lowerMsg.includes('thanks') || lowerMsg.includes('thx')) {
+                return '👍 Sama-sama!\n\nAda yang lain?';
+            }
+            
+            // Default
+            return '🤔 Coba tanya pakai kata kunci:\n\n• "AC tidak dingin"\n• "cara isi freon"\n• "cuci AC"\n• "error E1"\n• "kapasitor"\n• "harga service"\n• "AC bocor air"\n• "pasang AC"';
         }
 
         // ==========================================
