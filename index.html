@@ -33,25 +33,11 @@
             padding: 20px;
         }
 
-        .login-screen.hidden {
-            display: none;
-        }
+        .login-screen.hidden { display: none; }
 
-        .login-logo {
-            font-size: 4em;
-            margin-bottom: 20px;
-        }
-
-        .login-title {
-            color: white;
-            font-size: 1.8em;
-            margin-bottom: 10px;
-        }
-
-        .login-subtitle {
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 40px;
-        }
+        .login-logo { font-size: 4em; margin-bottom: 20px; }
+        .login-title { color: white; font-size: 1.8em; margin-bottom: 10px; }
+        .login-subtitle { color: rgba(255,255,255,0.8); margin-bottom: 40px; }
 
         .login-form {
             background: white;
@@ -62,16 +48,8 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
-        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
 
         .form-input {
             width: 100%;
@@ -82,17 +60,8 @@
             transition: border-color 0.3s;
         }
 
-        .form-input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .pin-input {
-            letter-spacing: 15px;
-            text-align: center;
-            font-size: 1.5em;
-            font-weight: bold;
-        }
+        .form-input:focus { outline: none; border-color: #667eea; }
+        .pin-input { letter-spacing: 15px; text-align: center; font-size: 1.5em; font-weight: bold; }
 
         .btn {
             width: 100%;
@@ -110,20 +79,11 @@
             color: white;
         }
 
-        .btn-primary:active {
-            transform: scale(0.98);
-        }
+        .btn-primary:active { transform: scale(0.98); }
 
         /* Main App */
-        .app-container {
-            display: none;
-            min-height: 100vh;
-            padding-bottom: 80px;
-        }
-
-        .app-container.active {
-            display: block;
-        }
+        .app-container { display: none; min-height: 100vh; padding-bottom: 80px; }
+        .app-container.active { display: block; }
 
         /* Header */
         .app-header {
@@ -140,11 +100,7 @@
             margin-bottom: 15px;
         }
 
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .user-info { display: flex; align-items: center; gap: 12px; }
 
         .user-avatar {
             width: 45px;
@@ -158,15 +114,8 @@
             font-size: 1.2em;
         }
 
-        .user-name {
-            font-size: 1.1em;
-            font-weight: 600;
-        }
-
-        .user-role {
-            font-size: 0.85em;
-            opacity: 0.8;
-        }
+        .user-name { font-size: 1.1em; font-weight: 600; }
+        .user-role { font-size: 0.85em; opacity: 0.8; }
 
         .logout-btn {
             background: rgba(255,255,255,0.2);
@@ -185,24 +134,28 @@
             border-radius: 10px;
         }
 
-        .date-display .day {
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-
-        .date-display .full-date {
-            font-size: 0.9em;
-            opacity: 0.9;
-        }
+        .date-display .day { font-size: 1.5em; font-weight: bold; }
+        .date-display .full-date { font-size: 0.9em; opacity: 0.9; }
 
         /* Tab Content */
-        .tab-content {
-            display: none;
+        .tab-content { display: none; padding: 20px; }
+        .tab-content.active { display: block; }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 16px;
             padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        .tab-content.active {
-            display: block;
+        .card h4 {
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         /* Attendance Styles */
@@ -214,32 +167,12 @@
             margin-bottom: 20px;
         }
 
-        .attendance-status {
-            text-align: center;
-            margin-bottom: 25px;
-        }
+        .attendance-status { text-align: center; margin-bottom: 25px; }
+        .status-icon { font-size: 3em; margin-bottom: 10px; }
+        .status-text { font-size: 1.2em; font-weight: 600; color: #333; }
+        .status-time { color: #666; margin-top: 5px; }
 
-        .status-icon {
-            font-size: 3em;
-            margin-bottom: 10px;
-        }
-
-        .status-text {
-            font-size: 1.2em;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .status-time {
-            color: #666;
-            margin-top: 5px;
-        }
-
-        .attendance-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
+        .attendance-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
         .attendance-btn {
             padding: 20px;
@@ -255,24 +188,10 @@
             transition: all 0.3s;
         }
 
-        .attendance-btn .icon {
-            font-size: 1.5em;
-        }
-
-        .attendance-btn.check-in {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            color: white;
-        }
-
-        .attendance-btn.check-out {
-            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
-            color: white;
-        }
-
-        .attendance-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+        .attendance-btn .icon { font-size: 1.5em; }
+        .attendance-btn.check-in { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; }
+        .attendance-btn.check-out { background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); color: white; }
+        .attendance-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .location-info {
             margin-top: 20px;
@@ -307,15 +226,8 @@
             font-weight: 500;
         }
 
-        .history-badge.present {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .history-badge.late {
-            background: #fff3cd;
-            color: #856404;
-        }
+        .history-badge.present { background: #d4edda; color: #155724; }
+        .history-badge.late { background: #fff3cd; color: #856404; }
 
         .history-details {
             display: flex;
@@ -325,83 +237,10 @@
             color: #666;
         }
 
-        /* KPI Styles */
-        .kpi-summary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 20px;
-        }
-
-        .kpi-summary h3 {
-            margin-bottom: 20px;
-            font-size: 1.1em;
-        }
-
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .kpi-item {
-            text-align: center;
-            padding: 15px;
-            background: rgba(255,255,255,0.15);
-            border-radius: 12px;
-        }
-
-        .kpi-item .value {
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-
-        .kpi-item .label {
-            font-size: 0.85em;
-            opacity: 0.9;
-            margin-top: 5px;
-        }
-
-        .kpi-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .kpi-card h4 {
-            margin-bottom: 15px;
-            color: #333;
-        }
-
-        .progress-bar {
-            height: 10px;
-            background: #e9ecef;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            border-radius: 5px;
-            transition: width 0.5s ease;
-        }
-
-        .progress-fill.green {
-            background: linear-gradient(90deg, #11998e, #38ef7d);
-        }
-
-        .progress-fill.blue {
-            background: linear-gradient(90deg, #667eea, #764ba2);
-        }
-
         /* ==========================================
-           EARNINGS DASHBOARD STYLES (NEW!)
+           GAJI (PENDAPATAN) STYLES
            ========================================== */
-        .earnings-card {
+        .gaji-summary-card {
             background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
             color: white;
             border-radius: 20px;
@@ -410,43 +249,52 @@
             box-shadow: 0 4px 15px rgba(17, 153, 142, 0.3);
         }
 
-        .earnings-card h3 {
+        .gaji-summary-card h3 {
             margin-bottom: 5px;
-            font-size: 1.1em;
+            font-size: 0.95em;
             opacity: 0.9;
         }
 
-        .earnings-total {
+        .gaji-total {
             font-size: 2.2em;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
         }
 
-        .earnings-date {
-            font-size: 0.9em;
+        .gaji-period {
+            font-size: 0.85em;
             opacity: 0.85;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .earnings-breakdown {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        .gaji-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
         }
 
-        .earnings-breakdown h4 {
-            color: #333;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .gaji-grid-item {
+            background: rgba(255,255,255,0.2);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
         }
 
-        .earnings-row {
+        .gaji-grid-item .value {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .gaji-grid-item .label {
+            font-size: 0.75em;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
+        .gaji-breakdown-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -454,25 +302,24 @@
             border-bottom: 1px solid #f0f0f0;
         }
 
-        .earnings-row:last-child {
-            border-bottom: none;
-        }
+        .gaji-breakdown-row:last-child { border-bottom: none; }
 
-        .earnings-row.total {
+        .gaji-breakdown-row.total {
             border-top: 2px solid #e0e0e0;
             margin-top: 10px;
             padding-top: 15px;
             font-weight: bold;
+            font-size: 1.1em;
         }
 
-        .earnings-label {
+        .gaji-label {
             display: flex;
             align-items: center;
             gap: 10px;
             color: #555;
         }
 
-        .earnings-label .icon {
+        .gaji-label .icon {
             width: 32px;
             height: 32px;
             border-radius: 8px;
@@ -482,113 +329,137 @@
             font-size: 1em;
         }
 
-        .earnings-label .icon.salary {
-            background: #e3f2fd;
+        .gaji-label .icon.salary { background: #e3f2fd; }
+        .gaji-label .icon.meal { background: #fff3e0; }
+        .gaji-label .icon.overtime { background: #e8f5e9; }
+        .gaji-label .icon.deduction { background: #ffebee; }
+
+        .gaji-value { font-weight: 600; color: #333; }
+        .gaji-value.positive { color: #2e7d32; }
+        .gaji-value.negative { color: #c62828; }
+
+        /* ==========================================
+           KINERJA (KPI) STYLES
+           ========================================== */
+        .kinerja-summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
         }
 
-        .earnings-label .icon.meal {
-            background: #fff3e0;
-        }
+        .kinerja-summary h3 { margin-bottom: 20px; font-size: 1.1em; }
 
-        .earnings-label .icon.overtime {
-            background: #e8f5e9;
-        }
-
-        .earnings-label .icon.deduction {
-            background: #ffebee;
-        }
-
-        .earnings-label .icon.kpi {
-            background: #f3e5f5;
-        }
-
-        .earnings-value {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .earnings-value.positive {
-            color: #2e7d32;
-        }
-
-        .earnings-value.negative {
-            color: #c62828;
-        }
-
-        .earnings-value.total {
-            font-size: 1.2em;
-            color: #1e3c72;
-        }
-
-        .earnings-detail {
-            font-size: 0.8em;
-            color: #999;
-            margin-top: 2px;
-        }
-
-        .realtime-indicator {
+        .kinerja-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 8px;
-            font-size: 0.85em;
-            color: #666;
             margin-bottom: 15px;
         }
 
-        .realtime-dot {
-            width: 8px;
-            height: 8px;
-            background: #4caf50;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
+        .kinerja-target-label { font-size: 0.9em; opacity: 0.9; }
+
+        .kinerja-target-value {
+            font-size: 1.8em;
+            font-weight: bold;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .work-time-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
+        .kinerja-vs {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
             margin-bottom: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        .work-time-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+        .kinerja-vs-row {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .kinerja-vs-item { text-align: center; }
+        .kinerja-vs-item .value { font-size: 1.3em; font-weight: bold; }
+        .kinerja-vs-item .label { font-size: 0.75em; opacity: 0.85; margin-top: 4px; }
+        .kinerja-vs-divider { font-size: 1.5em; opacity: 0.5; }
+
+        .kinerja-progress {
             margin-top: 15px;
         }
 
-        .work-time-item {
+        .kinerja-progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-fill.green { background: linear-gradient(90deg, #11998e, #38ef7d); }
+        .progress-fill.white { background: rgba(255,255,255,0.9); }
+
+        .kinerja-status {
             text-align: center;
-            padding: 12px;
-            background: #f8f9fa;
+            margin-top: 15px;
+            padding: 10px;
             border-radius: 10px;
+            font-weight: 600;
         }
 
-        .work-time-item .value {
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #333;
+        .kinerja-status.achieved { background: rgba(17, 153, 142, 0.3); }
+        .kinerja-status.almost { background: rgba(255, 193, 7, 0.3); }
+        .kinerja-status.below { background: rgba(244, 67, 54, 0.3); }
+
+        /* Trend Table */
+        .trend-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85em;
         }
 
-        .work-time-item .label {
-            font-size: 0.75em;
-            color: #666;
-            margin-top: 4px;
+        .trend-table th {
+            background: #f8f9fa;
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+            color: #555;
+            border-bottom: 2px solid #e0e0e0;
         }
 
-        .work-time-item.late .value {
-            color: #f57c00;
+        .trend-table td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #f0f0f0;
         }
 
-        .work-time-item.overtime .value {
-            color: #2e7d32;
+        .trend-table tr:last-child td { border-bottom: none; }
+
+        .trend-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 500;
         }
+
+        .trend-status.achieved { background: #d4edda; color: #155724; }
+        .trend-status.below { background: #f8d7da; color: #721c24; }
+
+        .trend-value { font-weight: 600; }
+        .trend-value.positive { color: #2e7d32; }
+        .trend-value.negative { color: #c62828; }
 
         /* AI Chat Styles */
         .chat-container {
@@ -606,19 +477,9 @@
             padding: 20px;
         }
 
-        .chat-message {
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .chat-message.user {
-            align-items: flex-end;
-        }
-
-        .chat-message.ai {
-            align-items: flex-start;
-        }
+        .chat-message { margin-bottom: 15px; display: flex; flex-direction: column; }
+        .chat-message.user { align-items: flex-end; }
+        .chat-message.ai { align-items: flex-start; }
 
         .message-bubble {
             max-width: 85%;
@@ -641,11 +502,7 @@
             border-bottom-left-radius: 5px;
         }
 
-        .message-time {
-            font-size: 0.75em;
-            color: #999;
-            margin-top: 5px;
-        }
+        .message-time { font-size: 0.75em; color: #999; margin-top: 5px; }
 
         .chat-input-container {
             display: flex;
@@ -663,9 +520,7 @@
             outline: none;
         }
 
-        .chat-input:focus {
-            border-color: #667eea;
-        }
+        .chat-input:focus { border-color: #667eea; }
 
         .send-btn {
             width: 48px;
@@ -678,11 +533,7 @@
             cursor: pointer;
         }
 
-        .typing-indicator {
-            display: flex;
-            gap: 4px;
-            padding: 10px;
-        }
+        .typing-indicator { display: flex; gap: 4px; padding: 10px; }
 
         .typing-indicator span {
             width: 8px;
@@ -719,22 +570,17 @@
             flex-direction: column;
             align-items: center;
             gap: 4px;
-            padding: 8px 16px;
+            padding: 8px 12px;
             border: none;
             background: none;
             color: #999;
-            font-size: 0.75em;
+            font-size: 0.7em;
             cursor: pointer;
             transition: all 0.3s;
         }
 
-        .nav-item .icon {
-            font-size: 1.5em;
-        }
-
-        .nav-item.active {
-            color: #667eea;
-        }
+        .nav-item .icon { font-size: 1.4em; }
+        .nav-item.active { color: #667eea; }
 
         /* Loading */
         .loading-overlay {
@@ -753,10 +599,7 @@
             transition: all 0.3s;
         }
 
-        .loading-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
+        .loading-overlay.active { opacity: 1; visibility: visible; }
 
         .loading-spinner {
             width: 50px;
@@ -767,9 +610,7 @@
             animation: spin 1s linear infinite;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         /* Toast */
         .toast {
@@ -787,14 +628,43 @@
             z-index: 1001;
         }
 
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
         .toast.success { background: #4caf50; }
         .toast.error { background: #f44336; }
         .toast.warning { background: #ff9800; }
+
+        /* Realtime indicator */
+        .realtime-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .realtime-dot {
+            width: 8px;
+            height: 8px;
+            background: #4caf50;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-state .icon { font-size: 3em; margin-bottom: 15px; opacity: 0.5; }
+        .empty-state p { font-size: 0.95em; }
     </style>
 </head>
 <body>
@@ -864,215 +734,181 @@
             </div>
 
             <h3 style="margin-bottom: 15px; color: #333;">📋 Riwayat Absensi</h3>
-            <div id="attendanceHistory">
-                <!-- Populated by JS -->
+            <div id="attendanceHistory"></div>
+        </div>
+
+        <!-- Tab: Gaji (Pendapatan) -->
+        <div class="tab-content" id="tabGaji">
+            <div class="gaji-summary-card">
+                <h3>💰 Total Gaji Bulan Ini</h3>
+                <div class="gaji-total" id="gajiTotal">Rp 0</div>
+                <div class="gaji-period">
+                    <span>📅</span>
+                    <span id="gajiPeriod">1 - 31 Januari 2026</span>
+                </div>
+
+                <div class="gaji-grid">
+                    <div class="gaji-grid-item">
+                        <div class="value" id="gajiHariKerja">0</div>
+                        <div class="label">Hari Kerja</div>
+                    </div>
+                    <div class="gaji-grid-item">
+                        <div class="value" id="gajiLembur">0 jam</div>
+                        <div class="label">Total Lembur</div>
+                    </div>
+                    <div class="gaji-grid-item">
+                        <div class="value" id="gajiTelat">0 mnt</div>
+                        <div class="label">Total Telat</div>
+                    </div>
+                    <div class="gaji-grid-item">
+                        <div class="value" id="gajiPotongan">Rp 0</div>
+                        <div class="label">Potongan</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h4>📊 Rincian Gaji Bulan Ini</h4>
+                
+                <div class="gaji-breakdown-row">
+                    <div class="gaji-label">
+                        <div class="icon salary">💼</div>
+                        <div>
+                            <div>Gaji Pokok</div>
+                            <div style="font-size: 0.8em; color: #999;" id="gajiPokokDetail">0 hari × Rp 0</div>
+                        </div>
+                    </div>
+                    <div class="gaji-value positive" id="gajiPokokValue">Rp 0</div>
+                </div>
+
+                <div class="gaji-breakdown-row">
+                    <div class="gaji-label">
+                        <div class="icon meal">🍽️</div>
+                        <div>
+                            <div>Uang Makan</div>
+                            <div style="font-size: 0.8em; color: #999;" id="gajiMakanDetail">0 hari × Rp 15.000</div>
+                        </div>
+                    </div>
+                    <div class="gaji-value positive" id="gajiMakanValue">Rp 0</div>
+                </div>
+
+                <div class="gaji-breakdown-row">
+                    <div class="gaji-label">
+                        <div class="icon overtime">⏰</div>
+                        <div>
+                            <div>Uang Lembur</div>
+                            <div style="font-size: 0.8em; color: #999;" id="gajiLemburDetail">0 jam × Rp 0</div>
+                        </div>
+                    </div>
+                    <div class="gaji-value positive" id="gajiLemburValue">Rp 0</div>
+                </div>
+
+                <div class="gaji-breakdown-row">
+                    <div class="gaji-label">
+                        <div class="icon deduction">⚠️</div>
+                        <div>
+                            <div>Potongan Terlambat</div>
+                            <div style="font-size: 0.8em; color: #999;" id="gajiPotonganDetail">0 × Rp 7.500</div>
+                        </div>
+                    </div>
+                    <div class="gaji-value negative" id="gajiPotonganValue">- Rp 0</div>
+                </div>
+
+                <div class="gaji-breakdown-row total">
+                    <div class="gaji-label"><strong>TOTAL GAJI</strong></div>
+                    <div class="gaji-value" style="color: #1e3c72; font-size: 1.2em;" id="gajiTotalBreakdown">Rp 0</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h4>ℹ️ Info Gaji Anda</h4>
+                <div style="font-size: 0.9em; color: #666; line-height: 1.6;">
+                    <p>• Gaji Pokok: <strong id="infoGajiPokok">Rp 0</strong>/hari</p>
+                    <p>• Uang Makan: <strong>Rp 15.000</strong>/hari</p>
+                    <p>• Lembur: <strong id="infoLembur">Rp 0</strong>/jam (setelah 17:00)</p>
+                    <p>• Denda Telat: <strong>Rp 7.500</strong>/30 menit</p>
+                </div>
             </div>
         </div>
 
-        <!-- Tab: Pendapatan (NEW!) -->
-        <div class="tab-content" id="tabEarnings">
+        <!-- Tab: Kinerja (KPI) -->
+        <div class="tab-content" id="tabKinerja">
             <div class="realtime-indicator">
                 <div class="realtime-dot"></div>
                 <span>Data realtime dari KPI Nala</span>
             </div>
 
-            <div class="earnings-card">
-                <h3>💰 Total Pendapatan Hari Ini</h3>
-                <div class="earnings-total" id="earningsTotalToday">Rp 0</div>
-                <div class="earnings-date">
-                    <span>📅</span>
-                    <span id="earningsDate">Senin, 1 Januari 2026</span>
-                </div>
-            </div>
-
-            <div class="work-time-card">
-                <h4 style="color: #333; margin-bottom: 5px;">⏰ Jam Kerja Hari Ini</h4>
-                <div class="work-time-grid">
-                    <div class="work-time-item">
-                        <div class="value" id="workCheckIn">--:--</div>
-                        <div class="label">Check In</div>
-                    </div>
-                    <div class="work-time-item">
-                        <div class="value" id="workCheckOut">--:--</div>
-                        <div class="label">Check Out</div>
-                    </div>
-                    <div class="work-time-item">
-                        <div class="value" id="workDuration">0 jam</div>
-                        <div class="label">Total Jam</div>
-                    </div>
-                </div>
-                <div class="work-time-grid" style="margin-top: 10px;">
-                    <div class="work-time-item late">
-                        <div class="value" id="lateMinutes">0 mnt</div>
-                        <div class="label">Terlambat</div>
-                    </div>
-                    <div class="work-time-item overtime">
-                        <div class="value" id="overtimeHours">0 jam</div>
-                        <div class="label">Lembur</div>
-                    </div>
-                    <div class="work-time-item">
-                        <div class="value" id="todayJobs">0</div>
-                        <div class="label">Pekerjaan</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="earnings-breakdown">
-                <h4>📊 Rincian Pendapatan</h4>
+            <div class="kinerja-summary">
+                <h3>🎯 Target vs Kinerja Bulan Ini</h3>
                 
-                <div class="earnings-row">
-                    <div class="earnings-label">
-                        <div class="icon salary">💼</div>
-                        <div>
-                            <div>Gaji Pokok Harian</div>
-                            <div class="earnings-detail" id="salaryDetail">Sesuai absensi</div>
+                <div class="kinerja-vs">
+                    <div class="kinerja-vs-row">
+                        <div class="kinerja-vs-item">
+                            <div class="value" id="kinerjaTarget">Rp 0</div>
+                            <div class="label">Target</div>
+                        </div>
+                        <div class="kinerja-vs-divider">vs</div>
+                        <div class="kinerja-vs-item">
+                            <div class="value" id="kinerjaAktual">Rp 0</div>
+                            <div class="label">Pencapaian</div>
                         </div>
                     </div>
-                    <div class="earnings-value positive" id="earningsSalary">Rp 0</div>
                 </div>
 
-                <div class="earnings-row">
-                    <div class="earnings-label">
-                        <div class="icon meal">🍽️</div>
-                        <div>
-                            <div>Uang Makan</div>
-                            <div class="earnings-detail">Per hari hadir</div>
-                        </div>
+                <div class="kinerja-progress">
+                    <div class="kinerja-progress-header">
+                        <span>Pencapaian</span>
+                        <span id="kinerjaPersentase">0%</span>
                     </div>
-                    <div class="earnings-value positive" id="earningsMeal">Rp 0</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill white" id="kinerjaProgressBar" style="width: 0%"></div>
+                    </div>
                 </div>
 
-                <div class="earnings-row">
-                    <div class="earnings-label">
-                        <div class="icon overtime">⏰</div>
-                        <div>
-                            <div>Uang Lembur</div>
-                            <div class="earnings-detail" id="overtimeDetail">Setelah jam 17:00</div>
-                        </div>
-                    </div>
-                    <div class="earnings-value positive" id="earningsOvertime">Rp 0</div>
-                </div>
-
-                <div class="earnings-row">
-                    <div class="earnings-label">
-                        <div class="icon kpi">📈</div>
-                        <div>
-                            <div>Pendapatan KPI</div>
-                            <div class="earnings-detail" id="kpiDetail">Dari pekerjaan hari ini</div>
-                        </div>
-                    </div>
-                    <div class="earnings-value positive" id="earningsKPI">Rp 0</div>
-                </div>
-
-                <div class="earnings-row">
-                    <div class="earnings-label">
-                        <div class="icon deduction">⚠️</div>
-                        <div>
-                            <div>Potongan Terlambat</div>
-                            <div class="earnings-detail" id="lateDetail">Rp 7.500/30 menit</div>
-                        </div>
-                    </div>
-                    <div class="earnings-value negative" id="earningsDeduction">- Rp 0</div>
-                </div>
-
-                <div class="earnings-row total">
-                    <div class="earnings-label">
-                        <strong>TOTAL HARI INI</strong>
-                    </div>
-                    <div class="earnings-value total" id="earningsTotalBreakdown">Rp 0</div>
+                <div class="kinerja-status" id="kinerjaStatus">
+                    📊 Belum ada data
                 </div>
             </div>
 
-            <div class="earnings-breakdown">
-                <h4>📅 Ringkasan Bulan Ini</h4>
-                <div class="earnings-row">
-                    <div class="earnings-label">Total Hari Kerja</div>
-                    <div class="earnings-value" id="monthWorkDays">0 hari</div>
-                </div>
-                <div class="earnings-row">
-                    <div class="earnings-label">Total Gaji Pokok</div>
-                    <div class="earnings-value positive" id="monthSalary">Rp 0</div>
-                </div>
-                <div class="earnings-row">
-                    <div class="earnings-label">Total Uang Makan</div>
-                    <div class="earnings-value positive" id="monthMeal">Rp 0</div>
-                </div>
-                <div class="earnings-row">
-                    <div class="earnings-label">Total Lembur</div>
-                    <div class="earnings-value positive" id="monthOvertime">Rp 0</div>
-                </div>
-                <div class="earnings-row">
-                    <div class="earnings-label">Total Pendapatan KPI</div>
-                    <div class="earnings-value positive" id="monthKPI">Rp 0</div>
-                </div>
-                <div class="earnings-row">
-                    <div class="earnings-label">Total Potongan</div>
-                    <div class="earnings-value negative" id="monthDeduction">- Rp 0</div>
-                </div>
-                <div class="earnings-row total">
-                    <div class="earnings-label"><strong>TOTAL BULAN INI</strong></div>
-                    <div class="earnings-value total" id="monthTotal">Rp 0</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tab: KPI -->
-        <div class="tab-content" id="tabKPI">
-            <div class="kpi-summary">
-                <h3>📊 Ringkasan Bulan Ini</h3>
-                <div class="kpi-grid">
-                    <div class="kpi-item">
-                        <div class="value" id="kpiTotalJobs">0</div>
-                        <div class="label">Total Job</div>
+            <div class="card">
+                <h4>📈 Statistik</h4>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center;">
+                    <div>
+                        <div style="font-size: 1.5em; font-weight: bold; color: #667eea;" id="statTotalJob">0</div>
+                        <div style="font-size: 0.75em; color: #666;">Total Job</div>
                     </div>
-                    <div class="kpi-item">
-                        <div class="value" id="kpiTotalIncome">Rp 0</div>
-                        <div class="label">Pendapatan</div>
+                    <div>
+                        <div style="font-size: 1.5em; font-weight: bold; color: #11998e;" id="statHariKerja">0</div>
+                        <div style="font-size: 0.75em; color: #666;">Hari Kerja</div>
                     </div>
-                    <div class="kpi-item">
-                        <div class="value" id="kpiWorkDays">0</div>
-                        <div class="label">Hari Kerja</div>
-                    </div>
-                    <div class="kpi-item">
-                        <div class="value" id="kpiAchievement">0%</div>
-                        <div class="label">Pencapaian</div>
+                    <div>
+                        <div style="font-size: 1.5em; font-weight: bold; color: #f57c00;" id="statRataRata">Rp 0</div>
+                        <div style="font-size: 0.75em; color: #666;">Rata-rata/Hari</div>
                     </div>
                 </div>
             </div>
 
-            <div class="kpi-card">
-                <h4>🎯 Target vs Realisasi</h4>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                    <span>Pencapaian Target</span>
-                    <span id="kpiProgressText">0%</span>
+            <div class="card">
+                <h4>📅 Riwayat Pengerjaan (Target vs Aktual)</h4>
+                <div style="overflow-x: auto;">
+                    <table class="trend-table" id="trendTable">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Target</th>
+                                <th>Aktual</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="trendTableBody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
                 </div>
-                <div class="progress-bar">
-                    <div class="progress-fill green" id="kpiProgressBar" style="width: 0%"></div>
+                <div class="empty-state" id="trendEmptyState" style="display: none;">
+                    <div class="icon">📋</div>
+                    <p>Belum ada riwayat pengerjaan</p>
                 </div>
-                <div style="display: flex; justify-content: space-between; font-size: 0.85em; color: #666;">
-                    <span>Target: <span id="kpiTargetValue">Rp 0</span></span>
-                    <span>Tercapai: <span id="kpiReachedValue">Rp 0</span></span>
-                </div>
-            </div>
-
-            <div class="kpi-card">
-                <h4>📅 Kehadiran Bulan Ini</h4>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                    <span>Tingkat Kehadiran</span>
-                    <span id="attendanceProgressText">0%</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill blue" id="attendanceProgressBar" style="width: 0%"></div>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 0.85em; color: #666;">
-                    <span>Hadir: <span id="attendanceDays">0</span> hari</span>
-                    <span>Target: <span id="attendanceTarget">0</span> hari</span>
-                </div>
-            </div>
-
-            <h3 style="margin: 20px 0 15px; color: #333;">📋 Detail Pekerjaan Bulan Ini</h3>
-            <div id="kpiJobList">
-                <!-- Populated by JS -->
             </div>
         </div>
 
@@ -1084,10 +920,10 @@
                         <div class="message-bubble">
                             Halo! 👋 Saya asisten AI Nala. Saya bisa membantu Anda dengan:
                             <br><br>
-                            • Informasi tentang pekerjaan AC<br>
-                            • Tips perawatan AC<br>
-                            • Troubleshooting masalah AC<br>
-                            • Pertanyaan tentang KPI Anda<br>
+                            • Info gaji dan pendapatan<br>
+                            • Info kinerja dan target<br>
+                            • Tips service AC<br>
+                            • Troubleshooting<br>
                             <br>
                             Silakan tanya apa saja!
                         </div>
@@ -1102,19 +938,19 @@
             </div>
         </div>
 
-        <!-- Bottom Navigation (Updated with 4 tabs) -->
+        <!-- Bottom Navigation -->
         <div class="bottom-nav">
             <button class="nav-item active" onclick="showTab('tabAbsensi', this)">
                 <span class="icon">📍</span>
                 <span>Absensi</span>
             </button>
-            <button class="nav-item" onclick="showTab('tabEarnings', this)">
+            <button class="nav-item" onclick="showTab('tabGaji', this)">
                 <span class="icon">💰</span>
-                <span>Pendapatan</span>
+                <span>Gaji</span>
             </button>
-            <button class="nav-item" onclick="showTab('tabKPI', this)">
-                <span class="icon">📊</span>
-                <span>KPI</span>
+            <button class="nav-item" onclick="showTab('tabKinerja', this)">
+                <span class="icon">🎯</span>
+                <span>Kinerja</span>
             </button>
             <button class="nav-item" onclick="showTab('tabAI', this)">
                 <span class="icon">🤖</span>
@@ -1150,23 +986,22 @@
         const db = firebase.firestore();
 
         // ==========================================
-        // SALARY CONFIGURATION (NEW!)
+        // SALARY CONFIGURATION
         // ==========================================
         const SALARY_CONFIG = {
             workStartTime: '08:30',
             workEndTime: '17:00',
             latePenaltyPer30Min: 7500,
             mealAllowance: 15000,
+            targetPerDay: 350000, // Target KPI per hari
             defaultDailySalary: 120000,
             defaultOvertimeRate: 15000,
-            // Special rates per technician
             specialRates: {
                 'fanta': { dailySalary: 150000, overtimeRate: 20000 },
                 'hotel': { dailySalary: 100000, overtimeRate: 15000 }
             }
         };
 
-        // Get salary config for specific technician
         function getTechnicianSalaryConfig(techName) {
             const nameLower = techName.toLowerCase();
             if (SALARY_CONFIG.specialRates[nameLower]) {
@@ -1183,32 +1018,26 @@
             };
         }
 
-        // Current user
+        // Global variables
         let currentUser = null;
         let currentLocation = null;
         let todayAttendance = null;
         let validLocations = [];
-        let earningsUnsubscribe = null; // For realtime listener
+        let earningsUnsubscribe = null;
 
         // Initialize
         document.addEventListener('DOMContentLoaded', async () => {
             updateDateTime();
             setInterval(updateDateTime, 60000);
-
-            // Load technicians for login
             await loadTechniciansForLogin();
-            
-            // Load valid locations
             await loadValidLocations();
 
-            // Check saved session
             const savedUser = localStorage.getItem('nalaUser');
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
                 showApp();
             }
 
-            // Start GPS tracking
             startLocationTracking();
         });
 
@@ -1216,16 +1045,13 @@
             const now = new Date();
             document.getElementById('currentDay').textContent = now.toLocaleDateString('id-ID', { weekday: 'long' });
             document.getElementById('currentDate').textContent = now.toLocaleDateString('id-ID', { 
-                day: 'numeric', 
-                month: 'long', 
-                year: 'numeric' 
+                day: 'numeric', month: 'long', year: 'numeric' 
             });
         }
 
         // ==========================================
         // LOGIN
         // ==========================================
-
         async function loadTechniciansForLogin() {
             try {
                 const snapshot = await db.collection('technicians').where('active', '==', true).get();
@@ -1267,7 +1093,6 @@
         }
 
         function logout() {
-            // Unsubscribe from realtime listener
             if (earningsUnsubscribe) {
                 earningsUnsubscribe();
                 earningsUnsubscribe = null;
@@ -1286,17 +1111,21 @@
             document.getElementById('userName').textContent = currentUser.name;
             document.getElementById('userAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
 
+            // Update salary info
+            const config = getTechnicianSalaryConfig(currentUser.name);
+            document.getElementById('infoGajiPokok').textContent = formatRupiah(config.dailySalary);
+            document.getElementById('infoLembur').textContent = formatRupiah(config.overtimeRate);
+
             loadTodayAttendance();
             loadAttendanceHistory();
-            loadKPIData();
-            loadEarningsData(); // Load earnings data
-            setupRealtimeEarnings(); // Setup realtime listener
+            loadGajiData();
+            loadKinerjaData();
+            setupRealtimeKinerja();
         }
 
         // ==========================================
         // LOCATION
         // ==========================================
-
         async function loadValidLocations() {
             try {
                 const snapshot = await db.collection('validLocations').get();
@@ -1331,17 +1160,14 @@
             let minDistance = Infinity;
 
             validLocations.forEach(loc => {
-                const distance = getDistance(
-                    currentLocation.lat, currentLocation.lng,
-                    loc.lat, loc.lng
-                );
+                const distance = getDistance(currentLocation.lat, currentLocation.lng, loc.lat, loc.lng);
                 if (distance < minDistance) {
                     minDistance = distance;
                     nearestLocation = loc;
                 }
             });
 
-            const maxDistance = 100; // 100 meters
+            const maxDistance = 100;
             if (minDistance <= maxDistance) {
                 currentLocation.validLocationId = nearestLocation.id;
                 currentLocation.validLocationName = nearestLocation.name;
@@ -1350,7 +1176,7 @@
             } else {
                 currentLocation.validLocationId = null;
                 document.getElementById('locationInfo').textContent = 
-                    `⚠️ Anda tidak di lokasi yang valid (${nearestLocation ? nearestLocation.name + ': ' + Math.round(minDistance) + 'm' : 'tidak ada lokasi'})`;
+                    `⚠️ Anda tidak di lokasi yang valid`;
             }
         }
 
@@ -1367,10 +1193,8 @@
         // ==========================================
         // ATTENDANCE
         // ==========================================
-
         async function loadTodayAttendance() {
             if (!currentUser) return;
-
             const today = new Date().toISOString().split('T')[0];
 
             try {
@@ -1419,7 +1243,7 @@
 
         async function checkIn() {
             if (!currentLocation || !currentLocation.validLocationId) {
-                showToast('Anda harus berada di lokasi yang valid untuk absen!', 'error');
+                showToast('Anda harus berada di lokasi yang valid!', 'error');
                 return;
             }
 
@@ -1442,10 +1266,7 @@
                     technicianName: currentUser.name,
                     date: now.toISOString().split('T')[0],
                     checkIn: firebase.firestore.FieldValue.serverTimestamp(),
-                    checkInLocation: {
-                        lat: currentLocation.lat,
-                        lng: currentLocation.lng
-                    },
+                    checkInLocation: { lat: currentLocation.lat, lng: currentLocation.lng },
                     checkInLocationName: currentLocation.validLocationName,
                     status: isLate ? 'late' : 'present',
                     lateMinutes: lateMinutes
@@ -1457,7 +1278,7 @@
                 updateAttendanceUI();
                 showToast('Check In berhasil! ' + (isLate ? `(Terlambat ${lateMinutes} menit)` : ''), isLate ? 'warning' : 'success');
                 loadAttendanceHistory();
-                loadEarningsData(); // Refresh earnings
+                loadGajiData();
             } catch (error) {
                 console.error('Check in error:', error);
                 showToast('Gagal check in: ' + error.message, 'error');
@@ -1473,7 +1294,7 @@
             }
 
             if (!currentLocation || !currentLocation.validLocationId) {
-                showToast('Anda harus berada di lokasi yang valid untuk absen!', 'error');
+                showToast('Anda harus berada di lokasi yang valid!', 'error');
                 return;
             }
 
@@ -1492,10 +1313,7 @@
 
                 await db.collection('attendance').doc(todayAttendance.id).update({
                     checkOut: firebase.firestore.FieldValue.serverTimestamp(),
-                    checkOutLocation: {
-                        lat: currentLocation.lat,
-                        lng: currentLocation.lng
-                    },
+                    checkOutLocation: { lat: currentLocation.lat, lng: currentLocation.lng },
                     checkOutLocationName: currentLocation.validLocationName,
                     overtimeMinutes: overtimeMinutes
                 });
@@ -1504,9 +1322,10 @@
                 todayAttendance.overtimeMinutes = overtimeMinutes;
                 
                 updateAttendanceUI();
-                showToast('Check Out berhasil!' + (overtimeMinutes > 0 ? ` (Lembur ${Math.floor(overtimeMinutes/60)} jam ${overtimeMinutes%60} menit)` : ''), 'success');
+                const overtimeHours = Math.floor(overtimeMinutes / 60);
+                showToast('Check Out berhasil!' + (overtimeMinutes > 0 ? ` (Lembur ${overtimeHours} jam)` : ''), 'success');
                 loadAttendanceHistory();
-                loadEarningsData(); // Refresh earnings
+                loadGajiData();
             } catch (error) {
                 console.error('Check out error:', error);
                 showToast('Gagal check out: ' + error.message, 'error');
@@ -1560,167 +1379,35 @@
         }
 
         // ==========================================
-        // EARNINGS CALCULATION (NEW!)
+        // GAJI (PENDAPATAN) - Salary Only, NOT KPI
         // ==========================================
-
-        async function loadEarningsData() {
+        async function loadGajiData() {
             if (!currentUser) return;
 
             const now = new Date();
-            const today = now.toISOString().split('T')[0];
-            const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+            const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+            const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+            
+            const startDate = startOfMonth.toISOString().split('T')[0];
+            const endDate = now.toISOString().split('T')[0];
 
-            // Update date display
-            document.getElementById('earningsDate').textContent = now.toLocaleDateString('id-ID', { 
-                weekday: 'long', 
-                day: 'numeric', 
-                month: 'long', 
-                year: 'numeric' 
-            });
+            // Update period display
+            document.getElementById('gajiPeriod').textContent = 
+                `${startOfMonth.toLocaleDateString('id-ID', { day: 'numeric' })} - ${endOfMonth.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`;
 
             const config = getTechnicianSalaryConfig(currentUser.name);
 
             try {
-                // Load today's attendance
-                const todayAttSnapshot = await db.collection('attendance')
-                    .where('technicianId', '==', currentUser.id)
-                    .where('date', '==', today)
-                    .get();
-
-                let todayEarnings = {
-                    salary: 0,
-                    meal: 0,
-                    overtime: 0,
-                    kpiIncome: 0,
-                    deduction: 0,
-                    checkIn: null,
-                    checkOut: null,
-                    lateMinutes: 0,
-                    overtimeMinutes: 0
-                };
-
-                if (!todayAttSnapshot.empty) {
-                    const att = todayAttSnapshot.docs[0].data();
-                    
-                    // Basic salary and meal if checked in
-                    if (att.checkIn) {
-                        todayEarnings.salary = config.dailySalary;
-                        todayEarnings.meal = config.mealAllowance;
-                        todayEarnings.checkIn = new Date(att.checkIn.seconds * 1000);
-                    }
-
-                    if (att.checkOut) {
-                        todayEarnings.checkOut = new Date(att.checkOut.seconds * 1000);
-                    }
-
-                    // Late penalty
-                    if (att.lateMinutes && att.lateMinutes > 0) {
-                        todayEarnings.lateMinutes = att.lateMinutes;
-                        const latePeriods = Math.ceil(att.lateMinutes / 30);
-                        todayEarnings.deduction = latePeriods * SALARY_CONFIG.latePenaltyPer30Min;
-                    }
-
-                    // Overtime
-                    if (att.overtimeMinutes && att.overtimeMinutes > 0) {
-                        todayEarnings.overtimeMinutes = att.overtimeMinutes;
-                        const overtimeHours = Math.floor(att.overtimeMinutes / 60);
-                        todayEarnings.overtime = overtimeHours * config.overtimeRate;
-                    }
-                }
-
-                // Load today's KPI income
-                const jobsSnapshot = await db.collection('jobs')
-                    .where('tanggal', '==', today)
-                    .get();
-
-                jobsSnapshot.forEach(doc => {
-                    const job = doc.data();
-                    if (job.teknisi && job.teknisi.toLowerCase().includes(currentUser.name.toLowerCase())) {
-                        const techCount = job.teknisi.split(',').length;
-                        todayEarnings.kpiIncome += Math.round((job.pemasukan || 0) / techCount);
-                    }
-                });
-
-                // Calculate total
-                const todayTotal = todayEarnings.salary + todayEarnings.meal + todayEarnings.overtime + todayEarnings.kpiIncome - todayEarnings.deduction;
-
-                // Update Today UI
-                updateTodayEarningsUI(todayEarnings, todayTotal, config);
-
-                // Load monthly data
-                await loadMonthlyEarnings(startOfMonth, today, config);
-
-            } catch (error) {
-                console.error('Error loading earnings:', error);
-            }
-        }
-
-        function updateTodayEarningsUI(earnings, total, config) {
-            // Total card
-            document.getElementById('earningsTotalToday').textContent = formatRupiah(total);
-            document.getElementById('earningsTotalBreakdown').textContent = formatRupiah(total);
-
-            // Work time
-            document.getElementById('workCheckIn').textContent = earnings.checkIn ? 
-                earnings.checkIn.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : '--:--';
-            document.getElementById('workCheckOut').textContent = earnings.checkOut ? 
-                earnings.checkOut.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : '--:--';
-
-            // Duration
-            if (earnings.checkIn && earnings.checkOut) {
-                const duration = (earnings.checkOut - earnings.checkIn) / (1000 * 60 * 60);
-                document.getElementById('workDuration').textContent = duration.toFixed(1) + ' jam';
-            } else if (earnings.checkIn) {
-                const duration = (new Date() - earnings.checkIn) / (1000 * 60 * 60);
-                document.getElementById('workDuration').textContent = duration.toFixed(1) + ' jam';
-            } else {
-                document.getElementById('workDuration').textContent = '0 jam';
-            }
-
-            // Late
-            document.getElementById('lateMinutes').textContent = earnings.lateMinutes > 0 ? 
-                earnings.lateMinutes + ' mnt' : '0 mnt';
-
-            // Overtime
-            const overtimeHours = Math.floor(earnings.overtimeMinutes / 60);
-            const overtimeMins = earnings.overtimeMinutes % 60;
-            document.getElementById('overtimeHours').textContent = earnings.overtimeMinutes > 0 ? 
-                `${overtimeHours}j ${overtimeMins}m` : '0 jam';
-
-            // Jobs count - will be updated from KPI
-            document.getElementById('todayJobs').textContent = earnings.kpiIncome > 0 ? '✓' : '0';
-
-            // Breakdown
-            document.getElementById('earningsSalary').textContent = formatRupiah(earnings.salary);
-            document.getElementById('salaryDetail').textContent = earnings.salary > 0 ? 
-                `${formatRupiah(config.dailySalary)}/hari` : 'Belum check in';
-
-            document.getElementById('earningsMeal').textContent = formatRupiah(earnings.meal);
-            document.getElementById('earningsOvertime').textContent = formatRupiah(earnings.overtime);
-            document.getElementById('overtimeDetail').textContent = earnings.overtimeMinutes > 0 ? 
-                `${overtimeHours} jam × ${formatRupiah(config.overtimeRate)}` : 'Tidak ada lembur';
-
-            document.getElementById('earningsKPI').textContent = formatRupiah(earnings.kpiIncome);
-            document.getElementById('kpiDetail').textContent = earnings.kpiIncome > 0 ? 
-                'Dari pekerjaan hari ini' : 'Belum ada pekerjaan';
-
-            document.getElementById('earningsDeduction').textContent = earnings.deduction > 0 ? 
-                `- ${formatRupiah(earnings.deduction)}` : '- Rp 0';
-            document.getElementById('lateDetail').textContent = earnings.lateMinutes > 0 ? 
-                `${Math.ceil(earnings.lateMinutes/30)} × Rp 7.500` : 'Tidak terlambat';
-        }
-
-        async function loadMonthlyEarnings(startDate, endDate, config) {
-            try {
-                // Load all attendance for this month
                 const attSnapshot = await db.collection('attendance')
                     .where('technicianId', '==', currentUser.id)
                     .where('date', '>=', startDate)
                     .where('date', '<=', endDate)
                     .get();
 
-                let monthlyData = {
-                    workDays: attSnapshot.size,
+                let gajiData = {
+                    workDays: 0,
+                    totalLateMinutes: 0,
+                    totalOvertimeMinutes: 0,
                     salary: 0,
                     meal: 0,
                     overtime: 0,
@@ -1731,75 +1418,59 @@
                     const att = doc.data();
                     
                     if (att.checkIn) {
-                        monthlyData.salary += config.dailySalary;
-                        monthlyData.meal += config.mealAllowance;
+                        gajiData.workDays++;
+                        gajiData.salary += config.dailySalary;
+                        gajiData.meal += config.mealAllowance;
                     }
 
                     if (att.lateMinutes && att.lateMinutes > 0) {
+                        gajiData.totalLateMinutes += att.lateMinutes;
                         const latePeriods = Math.ceil(att.lateMinutes / 30);
-                        monthlyData.deduction += latePeriods * SALARY_CONFIG.latePenaltyPer30Min;
+                        gajiData.deduction += latePeriods * SALARY_CONFIG.latePenaltyPer30Min;
                     }
 
                     if (att.overtimeMinutes && att.overtimeMinutes > 0) {
+                        gajiData.totalOvertimeMinutes += att.overtimeMinutes;
                         const overtimeHours = Math.floor(att.overtimeMinutes / 60);
-                        monthlyData.overtime += overtimeHours * config.overtimeRate;
+                        gajiData.overtime += overtimeHours * config.overtimeRate;
                     }
                 });
 
-                // Load KPI income for month
-                const jobsSnapshot = await db.collection('jobs')
-                    .where('tanggal', '>=', startDate)
-                    .where('tanggal', '<=', endDate)
-                    .get();
+                const totalGaji = gajiData.salary + gajiData.meal + gajiData.overtime - gajiData.deduction;
 
-                let monthlyKPI = 0;
-                jobsSnapshot.forEach(doc => {
-                    const job = doc.data();
-                    if (job.teknisi && job.teknisi.toLowerCase().includes(currentUser.name.toLowerCase())) {
-                        const techCount = job.teknisi.split(',').length;
-                        monthlyKPI += Math.round((job.pemasukan || 0) / techCount);
-                    }
-                });
+                // Update summary card
+                document.getElementById('gajiTotal').textContent = formatRupiah(totalGaji);
+                document.getElementById('gajiHariKerja').textContent = gajiData.workDays;
+                document.getElementById('gajiLembur').textContent = Math.floor(gajiData.totalOvertimeMinutes / 60) + ' jam';
+                document.getElementById('gajiTelat').textContent = gajiData.totalLateMinutes + ' mnt';
+                document.getElementById('gajiPotongan').textContent = formatRupiah(gajiData.deduction);
 
-                const monthlyTotal = monthlyData.salary + monthlyData.meal + monthlyData.overtime + monthlyKPI - monthlyData.deduction;
+                // Update breakdown
+                document.getElementById('gajiPokokValue').textContent = formatRupiah(gajiData.salary);
+                document.getElementById('gajiPokokDetail').textContent = `${gajiData.workDays} hari × ${formatRupiah(config.dailySalary)}`;
 
-                // Update Monthly UI
-                document.getElementById('monthWorkDays').textContent = monthlyData.workDays + ' hari';
-                document.getElementById('monthSalary').textContent = formatRupiah(monthlyData.salary);
-                document.getElementById('monthMeal').textContent = formatRupiah(monthlyData.meal);
-                document.getElementById('monthOvertime').textContent = formatRupiah(monthlyData.overtime);
-                document.getElementById('monthKPI').textContent = formatRupiah(monthlyKPI);
-                document.getElementById('monthDeduction').textContent = monthlyData.deduction > 0 ? 
-                    `- ${formatRupiah(monthlyData.deduction)}` : '- Rp 0';
-                document.getElementById('monthTotal').textContent = formatRupiah(monthlyTotal);
+                document.getElementById('gajiMakanValue').textContent = formatRupiah(gajiData.meal);
+                document.getElementById('gajiMakanDetail').textContent = `${gajiData.workDays} hari × Rp 15.000`;
+
+                document.getElementById('gajiLemburValue').textContent = formatRupiah(gajiData.overtime);
+                const overtimeHours = Math.floor(gajiData.totalOvertimeMinutes / 60);
+                document.getElementById('gajiLemburDetail').textContent = `${overtimeHours} jam × ${formatRupiah(config.overtimeRate)}`;
+
+                document.getElementById('gajiPotonganValue').textContent = gajiData.deduction > 0 ? `- ${formatRupiah(gajiData.deduction)}` : '- Rp 0';
+                const latePeriods = Math.ceil(gajiData.totalLateMinutes / 30);
+                document.getElementById('gajiPotonganDetail').textContent = `${latePeriods} × Rp 7.500`;
+
+                document.getElementById('gajiTotalBreakdown').textContent = formatRupiah(totalGaji);
 
             } catch (error) {
-                console.error('Error loading monthly earnings:', error);
+                console.error('Error loading gaji data:', error);
             }
         }
 
-        // Setup realtime listener for earnings
-        function setupRealtimeEarnings() {
-            if (!currentUser) return;
-
-            const today = new Date().toISOString().split('T')[0];
-
-            // Listen to jobs collection for realtime updates
-            earningsUnsubscribe = db.collection('jobs')
-                .where('tanggal', '==', today)
-                .onSnapshot(snapshot => {
-                    console.log('📊 KPI data updated - refreshing earnings...');
-                    loadEarningsData();
-                }, error => {
-                    console.error('Realtime listener error:', error);
-                });
-        }
-
         // ==========================================
-        // KPI
+        // KINERJA (KPI) - Target vs Pencapaian
         // ==========================================
-
-        async function loadKPIData() {
+        async function loadKinerjaData() {
             if (!currentUser) return;
 
             const now = new Date();
@@ -1814,110 +1485,134 @@
                     .get();
 
                 const myJobs = [];
+                const dailyData = {}; // Group by date
+
                 jobsSnapshot.forEach(doc => {
                     const job = doc.data();
                     if (job.teknisi && job.teknisi.toLowerCase().includes(currentUser.name.toLowerCase())) {
-                        myJobs.push({ id: doc.id, ...job });
+                        const techCount = job.teknisi.split(',').length;
+                        const income = Math.round((job.pemasukan || 0) / techCount);
+                        
+                        myJobs.push({ id: doc.id, ...job, myIncome: income });
+
+                        // Group by date
+                        if (!dailyData[job.tanggal]) {
+                            dailyData[job.tanggal] = { jobs: [], total: 0 };
+                        }
+                        dailyData[job.tanggal].jobs.push(job);
+                        dailyData[job.tanggal].total += income;
                     }
                 });
 
-                // Calculate KPI
+                // Calculate KPI stats
                 const totalJobs = myJobs.length;
-                const totalIncome = myJobs.reduce((sum, job) => {
-                    const techCount = job.teknisi.split(',').length;
-                    return sum + Math.round((job.pemasukan || 0) / techCount);
-                }, 0);
-
-                // Count unique work days
-                const workDays = new Set(myJobs.map(j => j.tanggal)).size;
-
-                // Calculate target (350rb per day)
-                const targetPerDay = 350000;
-                const target = workDays * targetPerDay;
+                const totalIncome = myJobs.reduce((sum, job) => sum + job.myIncome, 0);
+                const workDays = Object.keys(dailyData).length;
+                
+                // Target = jumlah hari kerja × target per hari
+                const target = workDays * SALARY_CONFIG.targetPerDay;
                 const achievement = target > 0 ? Math.round((totalIncome / target) * 100) : 0;
+                const avgPerDay = workDays > 0 ? Math.round(totalIncome / workDays) : 0;
 
-                // Update UI
-                document.getElementById('kpiTotalJobs').textContent = totalJobs;
-                document.getElementById('kpiTotalIncome').textContent = formatRupiah(totalIncome);
-                document.getElementById('kpiWorkDays').textContent = workDays;
-                document.getElementById('kpiAchievement').textContent = achievement + '%';
+                // Update summary
+                document.getElementById('kinerjaTarget').textContent = formatRupiah(target);
+                document.getElementById('kinerjaAktual').textContent = formatRupiah(totalIncome);
+                document.getElementById('kinerjaPersentase').textContent = achievement + '%';
+                document.getElementById('kinerjaProgressBar').style.width = Math.min(achievement, 100) + '%';
 
-                document.getElementById('kpiProgressText').textContent = achievement + '%';
-                document.getElementById('kpiProgressBar').style.width = Math.min(achievement, 100) + '%';
-                document.getElementById('kpiTargetValue').textContent = formatRupiah(target);
-                document.getElementById('kpiReachedValue').textContent = formatRupiah(totalIncome);
+                // Update status
+                const statusEl = document.getElementById('kinerjaStatus');
+                if (achievement >= 100) {
+                    statusEl.className = 'kinerja-status achieved';
+                    statusEl.textContent = '✅ TARGET TERCAPAI!';
+                } else if (achievement >= 80) {
+                    statusEl.className = 'kinerja-status almost';
+                    statusEl.textContent = '⚠️ Hampir Tercapai (' + (100 - achievement) + '% lagi)';
+                } else {
+                    statusEl.className = 'kinerja-status below';
+                    statusEl.textContent = '📊 Perlu ' + formatRupiah(target - totalIncome) + ' lagi';
+                }
 
-                // Load attendance for this month
-                const attendanceSnapshot = await db.collection('attendance')
-                    .where('technicianId', '==', currentUser.id)
-                    .where('date', '>=', startDate)
-                    .where('date', '<=', endDate)
-                    .get();
+                // Update statistics
+                document.getElementById('statTotalJob').textContent = totalJobs;
+                document.getElementById('statHariKerja').textContent = workDays;
+                document.getElementById('statRataRata').textContent = formatRupiah(avgPerDay);
 
-                const attendanceDays = attendanceSnapshot.size;
-                const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-                const attendancePercent = Math.round((attendanceDays / daysInMonth) * 100);
-
-                document.getElementById('attendanceProgressText').textContent = attendancePercent + '%';
-                document.getElementById('attendanceProgressBar').style.width = attendancePercent + '%';
-                document.getElementById('attendanceDays').textContent = attendanceDays;
-                document.getElementById('attendanceTarget').textContent = daysInMonth;
-
-                // Render job list
-                renderKPIJobList(myJobs);
+                // Render trend table
+                renderTrendTable(dailyData);
 
             } catch (error) {
-                console.error('Error loading KPI:', error);
+                console.error('Error loading kinerja data:', error);
             }
         }
 
-        function renderKPIJobList(jobs) {
-            const container = document.getElementById('kpiJobList');
-            
-            if (jobs.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">Belum ada pekerjaan bulan ini</p>';
+        function renderTrendTable(dailyData) {
+            const tbody = document.getElementById('trendTableBody');
+            const emptyState = document.getElementById('trendEmptyState');
+            const table = document.getElementById('trendTable');
+
+            const dates = Object.keys(dailyData).sort((a, b) => b.localeCompare(a)); // Newest first
+
+            if (dates.length === 0) {
+                table.style.display = 'none';
+                emptyState.style.display = 'block';
                 return;
             }
 
-            // Group by date
-            const grouped = {};
-            jobs.forEach(job => {
-                if (!grouped[job.tanggal]) grouped[job.tanggal] = [];
-                grouped[job.tanggal].push(job);
-            });
+            table.style.display = 'table';
+            emptyState.style.display = 'none';
 
-            container.innerHTML = Object.entries(grouped)
-                .sort((a, b) => b[0].localeCompare(a[0]))
-                .slice(0, 5)
-                .map(([date, dayJobs]) => {
-                    const dateDisplay = new Date(date).toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' });
-                    const dayTotal = dayJobs.reduce((sum, j) => sum + Math.round((j.pemasukan || 0) / j.teknisi.split(',').length), 0);
+            tbody.innerHTML = dates.slice(0, 10).map(date => {
+                const data = dailyData[date];
+                const target = SALARY_CONFIG.targetPerDay;
+                const actual = data.total;
+                const isAchieved = actual >= target;
+                const diff = actual - target;
 
-                    return `
-                        <div class="kpi-card">
-                            <h4>📅 ${dateDisplay} - ${formatRupiah(dayTotal)}</h4>
-                            ${dayJobs.map(job => `
-                                <div style="padding: 8px 0; border-bottom: 1px solid #eee;">
-                                    <div style="font-weight: 600;">${job.jasa}</div>
-                                    <div style="font-size: 0.85em; color: #666;">
-                                        📍 ${job.customer} • 💰 ${formatRupiah(Math.round((job.pemasukan || 0) / job.teknisi.split(',').length))}
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    `;
-                }).join('');
+                const dateDisplay = new Date(date).toLocaleDateString('id-ID', { 
+                    weekday: 'short', day: 'numeric', month: 'short' 
+                });
+
+                return `
+                    <tr>
+                        <td>${dateDisplay}</td>
+                        <td>${formatRupiah(target)}</td>
+                        <td>
+                            <span class="trend-value ${isAchieved ? 'positive' : 'negative'}">
+                                ${formatRupiah(actual)}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="trend-status ${isAchieved ? 'achieved' : 'below'}">
+                                ${isAchieved ? '✅ +' + formatRupiah(diff) : '❌ ' + formatRupiah(diff)}
+                            </span>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
         }
 
-        function formatRupiah(num) {
-            return 'Rp ' + (num || 0).toLocaleString('id-ID');
+        // Setup realtime listener for KPI
+        function setupRealtimeKinerja() {
+            if (!currentUser) return;
+
+            const now = new Date();
+            const startDate = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+
+            earningsUnsubscribe = db.collection('jobs')
+                .where('tanggal', '>=', startDate)
+                .onSnapshot(snapshot => {
+                    console.log('📊 KPI data updated - refreshing...');
+                    loadKinerjaData();
+                }, error => {
+                    console.error('Realtime listener error:', error);
+                });
         }
 
         // ==========================================
-        // AI CHAT (Simplified local responses)
+        // AI CHAT
         // ==========================================
-
-        async function sendMessage() {
+        function sendMessage() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
             
@@ -1954,9 +1649,7 @@
             container.innerHTML += `
                 <div class="chat-message ai" id="typingIndicator">
                     <div class="message-bubble">
-                        <div class="typing-indicator">
-                            <span></span><span></span><span></span>
-                        </div>
+                        <div class="typing-indicator"><span></span><span></span><span></span></div>
                     </div>
                 </div>
             `;
@@ -1970,37 +1663,38 @@
 
         function getLocalResponse(message) {
             const lowerMsg = message.toLowerCase();
+            const config = getTechnicianSalaryConfig(currentUser.name);
             
             if (lowerMsg.includes('gaji') || lowerMsg.includes('pendapatan') || lowerMsg.includes('salary')) {
-                const config = getTechnicianSalaryConfig(currentUser.name);
-                return `💰 Info Gaji ${currentUser.name}:\n\n• Gaji Pokok: ${formatRupiah(config.dailySalary)}/hari\n• Uang Makan: ${formatRupiah(config.mealAllowance)}/hari\n• Lembur: ${formatRupiah(config.overtimeRate)}/jam\n• Denda Terlambat: Rp 7.500/30 menit\n\nLihat detail lengkap di tab Pendapatan! 📊`;
+                return `💰 Info Gaji ${currentUser.name}:\n\n• Gaji Pokok: ${formatRupiah(config.dailySalary)}/hari\n• Uang Makan: Rp 15.000/hari\n• Lembur: ${formatRupiah(config.overtimeRate)}/jam\n• Denda Telat: Rp 7.500/30 menit\n\nLihat detail di tab Gaji! 💵`;
+            }
+            
+            if (lowerMsg.includes('target') || lowerMsg.includes('kpi') || lowerMsg.includes('kinerja')) {
+                return `🎯 Info Target KPI:\n\nTarget per hari: ${formatRupiah(SALARY_CONFIG.targetPerDay)}\n\nPencapaian dihitung dari:\n• Jumlah hari kerja × Target\n• vs Total pendapatan dari customer\n\nLihat detail di tab Kinerja! 📊`;
             }
             
             if (lowerMsg.includes('lembur') || lowerMsg.includes('overtime')) {
-                return '⏰ Info Lembur:\n\nLembur dihitung jika checkout setelah jam 17:00.\n\nRumus: Jam lembur × tarif lembur per jam\n\nContoh: Checkout jam 19:00 = 2 jam lembur';
+                return `⏰ Info Lembur:\n\nLembur dihitung jika checkout setelah jam 17:00.\n\nTarif: ${formatRupiah(config.overtimeRate)}/jam\n\nContoh: Checkout jam 19:00 = 2 jam × ${formatRupiah(config.overtimeRate)} = ${formatRupiah(config.overtimeRate * 2)}`;
             }
 
             if (lowerMsg.includes('terlambat') || lowerMsg.includes('telat') || lowerMsg.includes('denda')) {
-                return '⚠️ Info Keterlambatan:\n\nJam masuk: 08:30\nDenda: Rp 7.500 per 30 menit\n\nContoh:\n• Telat 15 menit = Rp 7.500\n• Telat 45 menit = Rp 15.000\n• Telat 1 jam = Rp 15.000';
+                return `⚠️ Info Keterlambatan:\n\nJam masuk: 08:30\nDenda: Rp 7.500 per 30 menit\n\nContoh:\n• Telat 15 menit = Rp 7.500\n• Telat 45 menit = Rp 15.000\n• Telat 1 jam = Rp 15.000`;
             }
             
             if (lowerMsg.includes('halo') || lowerMsg.includes('hai') || lowerMsg.includes('hi')) {
-                return `👋 Halo ${currentUser.name}!\n\nSaya bisa membantu info tentang:\n• Gaji dan pendapatan\n• Lembur\n• Keterlambatan\n• Tips service AC\n\nTanya apa saja!`;
+                return `👋 Halo ${currentUser.name}!\n\nSaya bisa bantu info tentang:\n• "gaji saya"\n• "target kpi"\n• "info lembur"\n• "denda telat"\n\nTanya apa saja!`;
             }
             
-            return '🤔 Maaf, saya belum mengerti pertanyaan itu.\n\nCoba tanya tentang:\n• "berapa gaji saya?"\n• "info lembur"\n• "denda terlambat"';
+            return '🤔 Coba tanya:\n• "berapa gaji saya?"\n• "target kpi"\n• "info lembur"\n• "denda telat"';
         }
 
         function handleChatKeypress(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
+            if (event.key === 'Enter') sendMessage();
         }
 
         // ==========================================
         // UTILITIES
         // ==========================================
-
         function showTab(tabId, btn) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
@@ -2008,11 +1702,8 @@
             document.getElementById(tabId).classList.add('active');
             btn.classList.add('active');
 
-            if (tabId === 'tabKPI') {
-                loadKPIData();
-            } else if (tabId === 'tabEarnings') {
-                loadEarningsData();
-            }
+            if (tabId === 'tabGaji') loadGajiData();
+            else if (tabId === 'tabKinerja') loadKinerjaData();
         }
 
         function showLoading(show) {
@@ -2023,10 +1714,11 @@
             const toast = document.getElementById('toast');
             toast.textContent = message;
             toast.className = 'toast show ' + type;
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function formatRupiah(num) {
+            return 'Rp ' + (num || 0).toLocaleString('id-ID');
         }
 
         // Make functions global
