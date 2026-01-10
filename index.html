@@ -1387,13 +1387,16 @@ Tanya apa saja!
             const today = new Date().toISOString().split('T')[0];
 
             try {
+                // Query by technicianId only, filter date di JS
                 const snapshot = await db.collection('attendance')
                     .where('technicianId', '==', currentUser.id)
-                    .where('date', '==', today)
                     .get();
 
-                if (!snapshot.empty) {
-                    todayAttendance = { id: snapshot.docs[0].id, ...snapshot.docs[0].data() };
+                // Filter untuk hari ini
+                const todayDoc = snapshot.docs.find(doc => doc.data().date === today);
+
+                if (todayDoc) {
+                    todayAttendance = { id: todayDoc.id, ...todayDoc.data() };
                     updateAttendanceUI();
                 } else {
                     todayAttendance = null;
@@ -1518,10 +1521,9 @@ Tanya apa saja!
             if (!currentUser) return;
 
             try {
+                // Query by technicianId only, sort di JS
                 const snapshot = await db.collection('attendance')
                     .where('technicianId', '==', currentUser.id)
-                    .orderBy('date', 'desc')
-                    .limit(10)
                     .get();
 
                 const container = document.getElementById('attendanceHistory');
@@ -1531,7 +1533,12 @@ Tanya apa saja!
                     return;
                 }
 
-                container.innerHTML = snapshot.docs.map(doc => {
+                // Sort by date descending dan limit 10 di JS
+                const sortedDocs = snapshot.docs
+                    .sort((a, b) => b.data().date.localeCompare(a.data().date))
+                    .slice(0, 10);
+
+                container.innerHTML = sortedDocs.map(doc => {
                     const att = doc.data();
                     const checkInTime = att.checkIn ? new Date(att.checkIn.seconds * 1000).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : '-';
                     const checkOutTime = att.checkOut ? new Date(att.checkOut.seconds * 1000).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : '-';
@@ -1574,18 +1581,19 @@ Tanya apa saja!
             const config = getTechnicianSalaryConfig(currentUser.name);
 
             try {
-                // Load attendance data
+                // Load attendance data - query by technicianId only, filter date di JS
                 const attSnapshot = await db.collection('attendance')
                     .where('technicianId', '==', currentUser.id)
-                    .where('date', '>=', startDate)
-                    .where('date', '<=', endDate)
                     .get();
 
-                // Build attendance map by date
+                // Build attendance map by date (filtered)
                 const attendanceMap = {};
                 attSnapshot.forEach(doc => {
                     const att = doc.data();
-                    attendanceMap[att.date] = att;
+                    // Filter by date range
+                    if (att.date >= startDate && att.date <= endDate) {
+                        attendanceMap[att.date] = att;
+                    }
                 });
 
                 // Load KPI/jobs data
@@ -2217,24 +2225,28 @@ Tanya saya tentang:
             const endDate = now.toISOString().split('T')[0];
 
             try {
-                // Check attendance
+                // Check attendance - ambil by technicianId saja, filter date di JS
                 const attSnapshot = await db.collection('attendance')
                     .where('technicianId', '==', currentUser.id)
-                    .where('date', '>=', startDate)
-                    .where('date', '<=', endDate)
                     .get();
+
+                // Filter by date range di JavaScript
+                const filteredAtt = attSnapshot.docs.filter(doc => {
+                    const d = doc.data();
+                    return d.date >= startDate && d.date <= endDate;
+                });
 
                 output.innerHTML += `\n👤 User: ${currentUser.name} (ID: ${currentUser.id})\n`;
                 output.innerHTML += `📅 Periode: ${startDate} s/d ${endDate}\n`;
                 output.innerHTML += `\n📋 ATTENDANCE DATA:\n`;
-                output.innerHTML += `   Found: ${attSnapshot.size} records\n`;
+                output.innerHTML += `   Found: ${filteredAtt.length} records\n`;
                 
-                attSnapshot.forEach(doc => {
+                filteredAtt.forEach(doc => {
                     const d = doc.data();
                     output.innerHTML += `   - ${d.date}: CheckIn=${d.checkIn ? '✅' : '❌'}, CheckOut=${d.checkOut ? '✅' : '❌'}, Late=${d.lateMinutes || 0}m, OT=${d.overtimeMinutes || 0}m\n`;
                 });
 
-                // Check jobs
+                // Check jobs - ambil by tanggal range saja, filter teknisi di JS
                 const jobsSnapshot = await db.collection('jobs')
                     .where('tanggal', '>=', startDate)
                     .where('tanggal', '<=', endDate)
@@ -2372,29 +2384,32 @@ Tanya saya tentang:
             output.innerHTML = '🔄 Deleting sample data...\n';
 
             try {
-                // Delete sample attendance
+                // Delete sample attendance - query by technicianId only, filter isSampleData di JS
                 const attSnapshot = await db.collection('attendance')
                     .where('technicianId', '==', currentUser.id)
-                    .where('isSampleData', '==', true)
                     .get();
 
                 const batch1 = db.batch();
                 attSnapshot.forEach(doc => {
-                    batch1.delete(doc.ref);
-                    output.innerHTML += `🗑️ Deleted attendance: ${doc.id}\n`;
+                    if (doc.data().isSampleData === true) {
+                        batch1.delete(doc.ref);
+                        output.innerHTML += `🗑️ Deleted attendance: ${doc.id}\n`;
+                    }
                 });
                 await batch1.commit();
 
-                // Delete sample jobs
+                // Delete sample jobs - query by isSampleData only, filter teknisi di JS
                 const jobsSnapshot = await db.collection('jobs')
-                    .where('teknisi', '==', currentUser.name)
                     .where('isSampleData', '==', true)
                     .get();
 
                 const batch2 = db.batch();
                 jobsSnapshot.forEach(doc => {
-                    batch2.delete(doc.ref);
-                    output.innerHTML += `🗑️ Deleted job: ${doc.id}\n`;
+                    const job = doc.data();
+                    if (job.teknisi && job.teknisi.toLowerCase() === currentUser.name.toLowerCase()) {
+                        batch2.delete(doc.ref);
+                        output.innerHTML += `🗑️ Deleted job: ${doc.id}\n`;
+                    }
                 });
                 await batch2.commit();
 
