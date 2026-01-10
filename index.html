@@ -868,6 +868,41 @@
                 </div>
             </div>
 
+            <!-- REKAP JAM KERJA & LEMBUR - DIPINDAH KE ATAS -->
+            <div class="work-hours-card">
+                <h3>⏱️ Rekap Jam Kerja & Pendapatan s/d Hari Ini</h3>
+                <div class="work-summary-grid">
+                    <div class="work-summary-item">
+                        <div class="value" id="totalJamKerja">0j 0m</div>
+                        <div class="label">Total Jam Kerja</div>
+                    </div>
+                    <div class="work-summary-item">
+                        <div class="value" id="totalJamLembur">0j 0m</div>
+                        <div class="label">Total Jam Lembur</div>
+                    </div>
+                    <div class="work-summary-item">
+                        <div class="value" id="totalGajiPokok">Rp 0</div>
+                        <div class="label">Total Gaji Pokok</div>
+                    </div>
+                    <div class="work-summary-item">
+                        <div class="value" id="totalUangMakan">Rp 0</div>
+                        <div class="label">Total Uang Makan</div>
+                    </div>
+                    <div class="work-summary-item">
+                        <div class="value" id="totalUangLembur">Rp 0</div>
+                        <div class="label">Total Uang Lembur</div>
+                    </div>
+                    <div class="work-summary-item">
+                        <div class="value" id="totalPotonganTelat" style="color: #ffcdd2;">Rp 0</div>
+                        <div class="label">Total Potongan</div>
+                    </div>
+                    <div class="work-summary-item highlight">
+                        <div class="value" id="grandTotalSampaiHariIni">Rp 0</div>
+                        <div class="label">💰 TOTAL GAJI BERSIH s/d Hari Ini</div>
+                    </div>
+                </div>
+            </div>
+
             <div class="card">
                 <h4>📊 Rincian Gaji Bulan Ini</h4>
                 
@@ -956,33 +991,6 @@
                 </div>
             </div>
 
-            <!-- NEW: Rekap Jam Kerja & Lembur -->
-            <div class="work-hours-card">
-                <h3>⏱️ Rekap Jam Kerja & Lembur s/d Hari Ini</h3>
-                <div class="work-summary-grid">
-                    <div class="work-summary-item">
-                        <div class="value" id="totalJamKerja">0 jam</div>
-                        <div class="label">Total Jam Kerja</div>
-                    </div>
-                    <div class="work-summary-item">
-                        <div class="value" id="totalJamLembur">0 jam</div>
-                        <div class="label">Total Jam Lembur</div>
-                    </div>
-                    <div class="work-summary-item">
-                        <div class="value" id="totalUangLembur">Rp 0</div>
-                        <div class="label">Total Uang Lembur</div>
-                    </div>
-                    <div class="work-summary-item">
-                        <div class="value" id="totalGajiAktual">Rp 0</div>
-                        <div class="label">Total Gaji Aktual</div>
-                    </div>
-                    <div class="work-summary-item highlight">
-                        <div class="value" id="grandTotalSampaiHariIni">Rp 0</div>
-                        <div class="label">💰 TOTAL PENDAPATAN s/d Hari Ini (Gaji + Makan + Lembur - Potongan)</div>
-                    </div>
-                </div>
-            </div>
-
             <div class="card">
                 <h4>📋 Detail Jam Kerja & Gaji Per Hari</h4>
                 <div class="scroll-table-container">
@@ -994,8 +1002,11 @@
                                 <th>Pulang</th>
                                 <th>Jam Kerja</th>
                                 <th>Lembur</th>
-                                <th>Uang Lembur</th>
-                                <th>Gaji Hari</th>
+                                <th>Gaji</th>
+                                <th>Makan</th>
+                                <th>U.Lembur</th>
+                                <th>Potong</th>
+                                <th>Total</th>
                             </tr>
                         </thead>
                         <tbody id="workHoursBody"></tbody>
@@ -1722,10 +1733,13 @@ Tanya apa saja!
                 const totalOvertimeHours = Math.floor(gajiData.totalOvertimeMinutes / 60);
                 const totalOvertimeMins = gajiData.totalOvertimeMinutes % 60;
 
+                // Update rekap kartu hijau
                 document.getElementById('totalJamKerja').textContent = `${totalWorkHours}j ${totalWorkMins}m`;
                 document.getElementById('totalJamLembur').textContent = `${totalOvertimeHours}j ${totalOvertimeMins}m`;
+                document.getElementById('totalGajiPokok').textContent = formatRupiah(gajiData.totalSalary);
+                document.getElementById('totalUangMakan').textContent = formatRupiah(gajiData.totalMeal);
                 document.getElementById('totalUangLembur').textContent = formatRupiah(gajiData.totalOvertime);
-                document.getElementById('totalGajiAktual').textContent = formatRupiah(gajiData.totalSalary);
+                document.getElementById('totalPotonganTelat').textContent = formatRupiah(gajiData.totalDeduction);
                 document.getElementById('grandTotalSampaiHariIni').textContent = formatRupiah(totalGaji);
 
                 // Render work hours table
@@ -1830,8 +1844,11 @@ Tanya apa saja!
                         <td>${checkOutStr}</td>
                         <td>${workStr}</td>
                         <td class="${hasOvertime ? 'overtime-highlight' : ''}">${otStr}</td>
-                        <td class="money">${day.overtime > 0 ? formatRupiah(day.overtime) : '-'}</td>
-                        <td class="money">${formatRupiah(day.total)}</td>
+                        <td class="money">${formatRupiahShort(day.salary)}</td>
+                        <td class="money">${formatRupiahShort(day.meal)}</td>
+                        <td class="money">${day.overtime > 0 ? formatRupiahShort(day.overtime) : '-'}</td>
+                        <td style="color: #c62828;">${day.deduction > 0 ? '-' + formatRupiahShort(day.deduction) : '-'}</td>
+                        <td class="money" style="font-weight: bold; background: #e8f5e9;">${formatRupiahShort(day.total)}</td>
                     </tr>
                 `;
             }).join('');
@@ -1845,7 +1862,10 @@ Tanya apa saja!
             const totalOtHours = Math.floor(totalOtMinutes / 60);
             const totalOtMins = totalOtMinutes % 60;
 
+            const totalGajiPokok = dailyDetails.reduce((sum, d) => sum + (d.salary || 0), 0);
+            const totalMakan = dailyDetails.reduce((sum, d) => sum + (d.meal || 0), 0);
             const totalUangLembur = dailyDetails.reduce((sum, d) => sum + (d.overtime || 0), 0);
+            const totalPotongan = dailyDetails.reduce((sum, d) => sum + (d.deduction || 0), 0);
             const totalGajiHarian = dailyDetails.reduce((sum, d) => sum + (d.total || 0), 0);
 
             tfoot.innerHTML = `
@@ -1853,10 +1873,24 @@ Tanya apa saja!
                     <td colspan="3" style="text-align: right;">TOTAL:</td>
                     <td>${totalWorkHours}j ${totalWorkMins}m</td>
                     <td>${totalOtHours}j ${totalOtMins}m</td>
-                    <td>${formatRupiah(totalUangLembur)}</td>
-                    <td>${formatRupiah(totalGajiHarian)}</td>
+                    <td>${formatRupiahShort(totalGajiPokok)}</td>
+                    <td>${formatRupiahShort(totalMakan)}</td>
+                    <td>${formatRupiahShort(totalUangLembur)}</td>
+                    <td>${totalPotongan > 0 ? '-' + formatRupiahShort(totalPotongan) : '-'}</td>
+                    <td style="font-size: 1.1em;">${formatRupiahShort(totalGajiHarian)}</td>
                 </tr>
             `;
+        }
+
+        // Format rupiah singkat (untuk tabel)
+        function formatRupiahShort(num) {
+            if (!num || num === 0) return 'Rp 0';
+            if (num >= 1000000) {
+                return 'Rp ' + (num / 1000000).toFixed(1) + 'jt';
+            } else if (num >= 1000) {
+                return 'Rp ' + Math.round(num / 1000) + 'rb';
+            }
+            return 'Rp ' + num.toLocaleString('id-ID');
         }
 
         // ==========================================
