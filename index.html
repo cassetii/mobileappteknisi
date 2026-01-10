@@ -826,6 +826,24 @@
                 <span>Data realtime dari KPI Nala</span>
             </div>
 
+            <!-- DEBUG & TEST BUTTONS -->
+            <div class="card" style="background: #fff3e0; border: 2px dashed #ff9800; margin-bottom: 15px;">
+                <h4 style="color: #e65100;">🔧 Debug & Test Mode</h4>
+                <p style="font-size: 0.85em; color: #666; margin-bottom: 15px;">Gunakan tombol ini untuk cek data atau generate sample data testing.</p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button onclick="debugCheckData()" style="padding: 10px 15px; background: #2196f3; color: white; border: none; border-radius: 8px; cursor: pointer;">
+                        🔍 Cek Data Firebase
+                    </button>
+                    <button onclick="generateSampleData()" style="padding: 10px 15px; background: #4caf50; color: white; border: none; border-radius: 8px; cursor: pointer;">
+                        ➕ Generate Sample Data
+                    </button>
+                    <button onclick="clearSampleData()" style="padding: 10px 15px; background: #f44336; color: white; border: none; border-radius: 8px; cursor: pointer;">
+                        🗑️ Hapus Sample Data
+                    </button>
+                </div>
+                <div id="debugOutput" style="margin-top: 15px; padding: 10px; background: #333; color: #0f0; font-family: monospace; font-size: 0.8em; border-radius: 8px; max-height: 200px; overflow-y: auto; display: none;"></div>
+            </div>
+
             <div class="gaji-summary-card">
                 <h3>💰 Total Gaji Bulan Ini</h3>
                 <div class="gaji-total" id="gajiTotal">Rp 0</div>
@@ -2180,6 +2198,227 @@ Tanya saya tentang:
         window.checkOut = checkOut;
         window.sendMessage = sendMessage;
         window.handleChatKeypress = handleChatKeypress;
+
+        // ==========================================
+        // DEBUG & SAMPLE DATA FUNCTIONS
+        // ==========================================
+        async function debugCheckData() {
+            if (!currentUser) {
+                alert('Login dulu!');
+                return;
+            }
+
+            const output = document.getElementById('debugOutput');
+            output.style.display = 'block';
+            output.innerHTML = '🔄 Loading...\n';
+
+            const now = new Date();
+            const startDate = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+            const endDate = now.toISOString().split('T')[0];
+
+            try {
+                // Check attendance
+                const attSnapshot = await db.collection('attendance')
+                    .where('technicianId', '==', currentUser.id)
+                    .where('date', '>=', startDate)
+                    .where('date', '<=', endDate)
+                    .get();
+
+                output.innerHTML += `\n👤 User: ${currentUser.name} (ID: ${currentUser.id})\n`;
+                output.innerHTML += `📅 Periode: ${startDate} s/d ${endDate}\n`;
+                output.innerHTML += `\n📋 ATTENDANCE DATA:\n`;
+                output.innerHTML += `   Found: ${attSnapshot.size} records\n`;
+                
+                attSnapshot.forEach(doc => {
+                    const d = doc.data();
+                    output.innerHTML += `   - ${d.date}: CheckIn=${d.checkIn ? '✅' : '❌'}, CheckOut=${d.checkOut ? '✅' : '❌'}, Late=${d.lateMinutes || 0}m, OT=${d.overtimeMinutes || 0}m\n`;
+                });
+
+                // Check jobs
+                const jobsSnapshot = await db.collection('jobs')
+                    .where('tanggal', '>=', startDate)
+                    .where('tanggal', '<=', endDate)
+                    .get();
+
+                output.innerHTML += `\n💼 JOBS DATA:\n`;
+                output.innerHTML += `   Total jobs this month: ${jobsSnapshot.size}\n`;
+                
+                let myJobs = 0;
+                jobsSnapshot.forEach(doc => {
+                    const j = doc.data();
+                    const isMyJob = j.teknisi && j.teknisi.toLowerCase().includes(currentUser.name.toLowerCase());
+                    if (isMyJob) {
+                        myJobs++;
+                        output.innerHTML += `   - ${j.tanggal}: ${j.teknisi} | Rp ${(j.pemasukan || 0).toLocaleString()}\n`;
+                    }
+                });
+                output.innerHTML += `   Jobs for ${currentUser.name}: ${myJobs}\n`;
+
+                output.innerHTML += `\n✅ Debug selesai!`;
+
+            } catch (error) {
+                output.innerHTML += `\n❌ ERROR: ${error.message}`;
+            }
+        }
+
+        async function generateSampleData() {
+            if (!currentUser) {
+                alert('Login dulu!');
+                return;
+            }
+
+            if (!confirm(`Generate sample data untuk ${currentUser.name}?\n\nIni akan membuat:\n- 5 hari attendance\n- 5 jobs dengan KPI berbeda`)) {
+                return;
+            }
+
+            showLoading(true);
+            const output = document.getElementById('debugOutput');
+            output.style.display = 'block';
+            output.innerHTML = '🔄 Generating sample data...\n';
+
+            try {
+                const now = new Date();
+                const batch = db.batch();
+
+                // Generate 5 days of sample data
+                for (let i = 1; i <= 5; i++) {
+                    const date = new Date(now.getFullYear(), now.getMonth(), i);
+                    const dateStr = date.toISOString().split('T')[0];
+
+                    // Random check in time (08:15 - 08:45)
+                    const checkInHour = 8;
+                    const checkInMin = 15 + Math.floor(Math.random() * 30);
+                    const checkInDate = new Date(date);
+                    checkInDate.setHours(checkInHour, checkInMin, 0, 0);
+
+                    // Random check out time (17:00 - 19:00)
+                    const checkOutHour = 17 + Math.floor(Math.random() * 2);
+                    const checkOutMin = Math.floor(Math.random() * 60);
+                    const checkOutDate = new Date(date);
+                    checkOutDate.setHours(checkOutHour, checkOutMin, 0, 0);
+
+                    // Calculate late minutes (if after 08:30)
+                    const lateMinutes = checkInMin > 30 ? checkInMin - 30 : 0;
+
+                    // Calculate overtime (if after 17:00)
+                    const overtimeMinutes = checkOutHour > 17 ? ((checkOutHour - 17) * 60 + checkOutMin) : (checkOutHour === 17 ? checkOutMin : 0);
+
+                    // Create attendance doc
+                    const attRef = db.collection('attendance').doc(`sample_${currentUser.id}_${dateStr}`);
+                    batch.set(attRef, {
+                        technicianId: currentUser.id,
+                        technicianName: currentUser.name,
+                        date: dateStr,
+                        checkIn: firebase.firestore.Timestamp.fromDate(checkInDate),
+                        checkOut: firebase.firestore.Timestamp.fromDate(checkOutDate),
+                        checkInLocation: { lat: -5.135399, lng: 119.423790 },
+                        checkOutLocation: { lat: -5.135399, lng: 119.423790 },
+                        checkInLocationName: 'Kantor Nala',
+                        checkOutLocationName: 'Kantor Nala',
+                        status: lateMinutes > 0 ? 'late' : 'present',
+                        lateMinutes: lateMinutes,
+                        overtimeMinutes: overtimeMinutes,
+                        isSampleData: true
+                    });
+
+                    // Create job with random KPI (250k - 450k)
+                    const kpiAmount = 250000 + Math.floor(Math.random() * 200000);
+                    const jobRef = db.collection('jobs').doc(`sample_job_${currentUser.id}_${dateStr}`);
+                    batch.set(jobRef, {
+                        tanggal: dateStr,
+                        teknisi: currentUser.name,
+                        pelanggan: `Customer Sample ${i}`,
+                        alamat: 'Makassar',
+                        jenisPekerjaan: 'Service AC',
+                        pemasukan: kpiAmount,
+                        isSampleData: true
+                    });
+
+                    output.innerHTML += `✅ Created: ${dateStr} | In: ${checkInHour}:${checkInMin.toString().padStart(2,'0')} | Out: ${checkOutHour}:${checkOutMin.toString().padStart(2,'0')} | KPI: Rp ${kpiAmount.toLocaleString()}\n`;
+                }
+
+                await batch.commit();
+                output.innerHTML += `\n🎉 Sample data created! Refreshing...\n`;
+
+                // Refresh data
+                setTimeout(() => {
+                    loadGajiData();
+                    loadKinerjaData();
+                    loadAttendanceHistory();
+                    showToast('Sample data berhasil dibuat!', 'success');
+                }, 1000);
+
+            } catch (error) {
+                output.innerHTML += `\n❌ ERROR: ${error.message}`;
+                showToast('Gagal: ' + error.message, 'error');
+            }
+
+            showLoading(false);
+        }
+
+        async function clearSampleData() {
+            if (!currentUser) {
+                alert('Login dulu!');
+                return;
+            }
+
+            if (!confirm(`Hapus semua sample data untuk ${currentUser.name}?`)) {
+                return;
+            }
+
+            showLoading(true);
+            const output = document.getElementById('debugOutput');
+            output.style.display = 'block';
+            output.innerHTML = '🔄 Deleting sample data...\n';
+
+            try {
+                // Delete sample attendance
+                const attSnapshot = await db.collection('attendance')
+                    .where('technicianId', '==', currentUser.id)
+                    .where('isSampleData', '==', true)
+                    .get();
+
+                const batch1 = db.batch();
+                attSnapshot.forEach(doc => {
+                    batch1.delete(doc.ref);
+                    output.innerHTML += `🗑️ Deleted attendance: ${doc.id}\n`;
+                });
+                await batch1.commit();
+
+                // Delete sample jobs
+                const jobsSnapshot = await db.collection('jobs')
+                    .where('teknisi', '==', currentUser.name)
+                    .where('isSampleData', '==', true)
+                    .get();
+
+                const batch2 = db.batch();
+                jobsSnapshot.forEach(doc => {
+                    batch2.delete(doc.ref);
+                    output.innerHTML += `🗑️ Deleted job: ${doc.id}\n`;
+                });
+                await batch2.commit();
+
+                output.innerHTML += `\n🎉 Sample data deleted! Refreshing...\n`;
+
+                // Refresh data
+                setTimeout(() => {
+                    loadGajiData();
+                    loadKinerjaData();
+                    loadAttendanceHistory();
+                    showToast('Sample data berhasil dihapus!', 'success');
+                }, 1000);
+
+            } catch (error) {
+                output.innerHTML += `\n❌ ERROR: ${error.message}`;
+                showToast('Gagal: ' + error.message, 'error');
+            }
+
+            showLoading(false);
+        }
+
+        window.debugCheckData = debugCheckData;
+        window.generateSampleData = generateSampleData;
+        window.clearSampleData = clearSampleData;
     </script>
 </body>
 </html>
